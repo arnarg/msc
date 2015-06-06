@@ -14,14 +14,27 @@ body {
 		& .song-info {
 			position: absolute;
 			top: -300px;
-			background-color: rgba(1, 1, 1, 0.4);
+			background-color: rgba(1, 1, 1, 0.6);
 			color: #DDDDDD;
-			width: 300px;
-			height: 300px;
-			transition: top 0.4s linear;
+			width: 280px;
+			height: 280px;
+			transition: top 0.2s linear;
+			padding: 10px;
+			font-family: verdana;
 
 			&.shown {
 				top: 0;
+			}
+
+			& .artist {
+				font-size: 40px;
+				color: #E05858;
+				font-weight: bold;
+			}
+
+			& .title {
+				font-size: 30px;
+				color: #DEDEDE;
 			}
 		}
 
