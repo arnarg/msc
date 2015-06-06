@@ -1,14 +1,22 @@
-var mpd = require('mpd');
-var cmd = mpd.cmd;
-var CA  = require('coverart');
-var $   = require('jquery');
+var mpd    = require('mpd');
+var cmd    = mpd.cmd;
+var CA     = require('coverart');
+var jQuery = require('jquery');
+var $      = jQuery;
+var sightglass = require('sightglass');
+var rivets = require('rivets');
 
 var func = require('./functions.js');
 
-var globals = {
-	status: {},
-	currentsong: {}
+var mpdStatus = {
+	volume: 0,
+	state: ""
 };
+var songInfo = {
+	Artist: "",
+	Title: ""
+};
+
 var client = mpd.connect({
 	port: 6600,
 	host: 'localhost'
@@ -25,42 +33,57 @@ $(document).ready(function() {
 		updateStatus();
 	});
 
-	$('.cover').mouseenter(function() {
+	$('#mousearea').mouseenter(function() {
 		$('.song-info').addClass('shown');
 	}).mouseleave(function() {
 		$('.song-info').removeClass('shown');
 	});
+
+	console.log(rivets.bind($('#song-info'), {model: songInfo}));
 });
+
+rivets.formatters.upper = function(value) {
+	return value.toUpperCase();
+};
 
 var updateStatus = function() {
 	client.sendCommand(cmd('status', []), function(err, msg) {
-		globals.status = func.parseMsg(msg);
+		var msgObj = func.parseMsg(msg);
 
-		if (globals.status.state === 'play') {
+		mpdStatus.volume = msgObj.volume;
+		mpdStatus.state  = msgObj.state;
+
+		if (mpdStatus.state === 'play') {
 			$('#playBtn').addClass('fa-pause');
 		} else {
 			$('#playBtn').addClass('fa-play');
 		}
 
-		if (globals.status.state !== 'stop') {
+		if (mpdStatus.state !== 'stop') {
 			client.sendCommand(cmd('currentsong', []), function(err, msg) {
-				globals.currentsong = func.parseMsg(msg);
+				var msgObj = func.parseMsg(msg);
 
-				updateCoverArt(globals.currentsong.MUSICBRAINZ_ALBUMID);
+				songInfo.Artist = msgObj.Artist;
+				songInfo.Title  = msgObj.Title;
+
+				updateCoverArt(msgObj.MUSICBRAINZ_ALBUMID);
 			});
 		}
 	});
 }
 
 var togglePlay = function() {
-	client.sendCommand(cmd('pause ' + (globals.status.state === 'pause' ? '0' : '1'), []),
+	client.sendCommand(cmd('pause ' + (mpdStatus.state === 'pause' ? '0' : '1'), []),
 		function(err, msg) {
 			client.sendCommand(cmd('status', []), function(err, msg) {
-				globals.status = func.parseMsg(msg);
+				var msgObj = func.parseMsg(msg);
+
+				mpdStatus.volume = msgObj.volume;
+				mpdStatus.state  = msgObj.state;
 
 				$('#playBtn')
 				.removeClass('fa-play fa-pause')
-				.addClass((globals.status.state === 'play' ? 'fa-pause' : 'fa-play'));
+				.addClass((mpdStatus.state === 'play' ? 'fa-pause' : 'fa-play'));
 			});
 		}
 	);

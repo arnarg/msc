@@ -9,10 +9,11 @@
 		<div class="main">
 			<div class="background"></div>
 			<div class="cover"></div>
-			<div class="song-info">
-				<div class="artist">SILVERSUN PICKUPS</div>
-				<div class="title">Growing Old Is Getting Old</div>
+			<div class="song-info" id="song-info">
+				<div class="artist">{ model.Artist | upper }</div>
+				<div class="title">{ model.Title }</div>
 			</div>
+			<div id="mousearea"></div>
 
 			<div class="controls">
 				<i class="fa fa-step-backward control"
