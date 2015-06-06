@@ -3,7 +3,6 @@ var cmd    = mpd.cmd;
 var CA     = require('coverart');
 var jQuery = require('jquery');
 var $      = jQuery;
-var sightglass = require('sightglass');
 var rivets = require('rivets');
 
 var func = require('./functions.js');
