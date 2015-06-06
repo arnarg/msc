@@ -1,3 +1,8 @@
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
 body {
 	margin: 0;
 
@@ -14,6 +19,7 @@ body {
 		}
 
 		& .controls {
+			.noselect;
 			position: absolute;
 			bottom: 0;
 			width: 100%;
@@ -22,6 +28,7 @@ body {
 			text-align: center;
 
 			& .control {
+				width: 30px;
 				margin: 0 20px;
 				position: relative;
 				top: 50%;
