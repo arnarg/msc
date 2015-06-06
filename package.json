@@ -1,0 +1,27 @@
+{
+  "name": "msc",
+  "version": "0.1.0",
+  "description": "A simple mpd client",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "mpd"
+  ],
+  "author": "Arnar Gauti Ingason <granra@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-prebuilt": "^0.27.2",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-electron": "0.0.5",
+    "gulp-jshint": "^1.11.0"
+  },
+  "dependencies": {
+    "coverart": "0.0.1",
+    "font-awesome": "^4.3.0",
+    "jquery": "^2.1.4",
+    "mpd": "^1.3.0"
+  }
+}
