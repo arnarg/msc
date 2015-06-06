@@ -4,51 +4,71 @@ var CA  = require('coverart');
 var $   = require('jquery');
 
 var state;
+var client = mpd.connect({
+	port: 6600,
+	host: 'localhost'
+});
 
 var ca = new CA();
 
 $(document).ready(function() {
-	var client = mpd.connect({
-		port: 6600,
-		host: 'localhost'
-	});
-
 	client.on('ready', function() {
 		client.sendCommand(cmd("status", []), function(err, msg) {
 			state = /state: (\w+)\n/i.exec(msg)[1];
 
-			if (state !== 'stop') {
-				client.sendCommand(cmd("currentsong", []), function(err, msg) {
-					if (msg) {
-						var mbid = /MUSICBRAINZ_ALBUMID: (.*)\n/i.exec(msg)[1];
-						updateCoverArt(mbid);
-					}
-				});
+			if (state !== 'stop') updateCoverArt();
+
+			if (state === 'play') {
+				$('#playBtn').addClass('fa-pause');
+			} else {
+				$('#playBtn').addClass('fa-play');
 			}
 		});
 	});
 
 	client.on('system-player', function(name) {
-		client.sendCommand(cmd("currentsong", []), function(err, msg) {
-			if (msg) {
-				var mbid = /MUSICBRAINZ_ALBUMID: (.*)\n/i.exec(msg)[1];
-				updateCoverArt(mbid);
-			}
-		});
+		updateCoverArt();
 	});
 });
 
 var togglePlay = function() {
+	client.sendCommand(cmd('pause ' + (state === 'pause' ? '0' : '1'), []),
+		function(err, msg) {
+			client.sendCommand(cmd('status', []), function(err, msg) {
+				state = /state: (\w+)\n/i.exec(msg)[1];
 
+				$('#playBtn')
+				.removeClass('fa-play fa-pause')
+				.addClass((state === 'play' ? 'fa-pause' : 'fa-play'));
+			});
+		}
+	);
 };
 
-var updateCoverArt = function(mbid) {
-	fetchCoverArt(mbid)
-	.done(function(img) {
-		$('.cover').css('background-image',
-		"url('" + img +"')");
-	}).fail(function(res) {
-		console.log('fail');
+var prevSong = function() {
+	client.sendCommand(cmd('previous', []), function(err, msg) {
+		console.log(msg);
+	});
+};
+
+var nextSong = function() {
+	client.sendCommand(cmd('next', []), function(err, msg) {
+		console.log(msg);
+	});
+};
+
+var updateCoverArt = function() {
+	client.sendCommand(cmd('currentsong', []), function(err, msg) {
+		if (msg) {
+			var mbid = /MUSICBRAINZ_ALBUMID: (.*)\n/i.exec(msg)[1];
+			fetchCoverArt(mbid)
+			.done(function(img) {
+				$('.cover').css('background-image',
+				"url('" + img +"')");
+			}).fail(function(res) {
+				console.log('fail');
+			});
+		}
 	});
 };
 
