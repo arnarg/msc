@@ -7,6 +7,10 @@ var rivets = require('rivets');
 
 var func = require('./functions.js');
 
+var settings = {
+	port: 6600,
+	host: 'localhost'
+};
 var mpdStatus = {
 	volume: 0,
 	state: ""
@@ -17,8 +21,8 @@ var songInfo = {
 };
 
 var client = mpd.connect({
-	port: 6600,
-	host: 'localhost'
+	port: settings.port,
+	host: settings.host
 });
 
 var ca = new CA();
@@ -38,7 +42,8 @@ $(document).ready(function() {
 		$('.song-info').removeClass('shown');
 	});
 
-	console.log(rivets.bind($('#song-info'), {model: songInfo}));
+	rivets.bind($('#song-info'), {model: songInfo});
+	rivets.bind($('#settings'), {model: settings});
 });
 
 rivets.formatters.upper = function(value) {
@@ -52,11 +57,9 @@ var updateStatus = function() {
 		mpdStatus.volume = msgObj.volume;
 		mpdStatus.state  = msgObj.state;
 
-		if (mpdStatus.state === 'play') {
-			$('#playBtn').addClass('fa-pause');
-		} else {
-			$('#playBtn').addClass('fa-play');
-		}
+		$('#playBtn')
+		.removeClass('fa-play fa-pause')
+		.addClass((mpdStatus.state === 'play' ? 'fa-pause' : 'fa-play'));
 
 		if (mpdStatus.state !== 'stop') {
 			client.sendCommand(cmd('currentsong', []), function(err, msg) {
@@ -101,7 +104,13 @@ var nextSong = function() {
 };
 
 var toggleSettings = function() {
-	$('.settings').fadeToggle('slow');
+	var elem = $('.settings');
+	if (elem.hasClass('shown')) {
+		console.log(settings.host + ":" + settings.port);
+		elem.removeClass('shown');
+	} else {
+		elem.addClass('shown');
+	}
 };
 
 var updateCoverArt = function(mbid) {

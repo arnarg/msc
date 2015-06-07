@@ -1,3 +1,7 @@
+@red-color: #E05858;
+@white-color: #DEDEDE;
+@dark-grey-color: #222222;
+
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -5,22 +9,22 @@
 
 body {
 	margin: 0;
+	font-family: verdana;
 
 	& .main {
 		position: relative;
 		width: 100%;
 		height: 100vh;
+		overflow: hidden;
 
 		& .song-info {
 			position: absolute;
 			top: -300px;
 			background-color: rgba(1, 1, 1, 0.6);
-			color: #DDDDDD;
 			width: 280px;
 			height: 280px;
 			transition: top 0.2s linear;
 			padding: 10px;
-			font-family: verdana;
 
 			&.shown {
 				top: 0;
@@ -28,14 +32,14 @@ body {
 
 			& .artist {
 				font-size: 40px;
-				color: #E05858;
+				color: @red-color;
 				font-weight: bold;
 				word-wrap: break-word;
 			}
 
 			& .title {
 				font-size: 30px;
-				color: #DEDEDE;
+				color: @white-color;
 				word-wrap: break-word;
 			}
 		}
@@ -49,9 +53,31 @@ body {
 
 		& .settings {
 			position: absolute;
-			background-color: #444444;
-			width: 300px;
-			height: 300px;
+			top: 300px;
+			background-color: rgba(1, 1, 1, 0.6);
+			width: 280px;
+			height: 280px;
+			transition: top 0.2s linear;
+			padding: 10px;
+
+			&.shown {
+				top: 0;
+			}
+
+			& p {
+				font-size: 30px;
+				color: @white-color;
+				margin: 10px 0;
+			}
+
+			& input {
+				background-color: #FFFFFF;
+				border: 0;
+				border-radius: 5px;
+				width: 100%;
+				font-size: 25px;
+				color: @dark-grey-color;
+			}
 		}
 
 		& .cover {
