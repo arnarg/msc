@@ -1,11 +1,8 @@
-var mpd    = require('mpd');
-var cmd    = mpd.cmd;
-var CA     = require('coverart');
 var jQuery = require('jquery');
 var $      = jQuery;
 var rivets = require('rivets');
-
-var func = require('./functions.js');
+var mpd    = require('./modules/mpdcontrols.js');
+var cover  = require('./modules/albumart.js');
 
 var settings = {
 	port: 6600,
@@ -13,127 +10,79 @@ var settings = {
 };
 var mpdStatus = {
 	volume: 0,
-	state: ""
+	state: ''
 };
 var songInfo = {
-	Artist: "",
-	Title: ""
+	Artist: '',
+	Title: ''
 };
 
-var client = mpd.connect({
-	port: settings.port,
-	host: settings.host
-});
-
-var ca = new CA();
-
 $(document).ready(function() {
-	client.on('ready', function() {
-		updateStatus();
-	});
+	// Connect to mpd
+	mpd.connect(settings.host, settings.port, updateStatus);
 
-	client.on('system-player', function(name) {
-		updateStatus();
-	});
-
+	// Listen to mouseover on cover image
+	// to display song info
 	$('#mousearea').mouseenter(function() {
 		$('.song-info').addClass('shown');
 	}).mouseleave(function() {
 		$('.song-info').removeClass('shown');
 	});
 
+	// Data binding
 	rivets.bind($('#song-info'), {model: songInfo});
 	rivets.bind($('#settings'), {model: settings});
 });
 
+// Formatter to display artist name in upper case
 rivets.formatters.upper = function(value) {
 	return value.toUpperCase();
 };
 
 var updateStatus = function() {
-	client.sendCommand(cmd('status', []), function(err, msg) {
-		var msgObj = func.parseMsg(msg);
-
-		mpdStatus.volume = msgObj.volume;
-		mpdStatus.state  = msgObj.state;
+	mpd.getStatus(function(res) {
+		mpdStatus.volume = res.volume;
+		mpdStatus.state  = res.state;
 
 		$('#playBtn')
 		.removeClass('fa-play fa-pause')
 		.addClass((mpdStatus.state === 'play' ? 'fa-pause' : 'fa-play'));
 
 		if (mpdStatus.state !== 'stop') {
-			client.sendCommand(cmd('currentsong', []), function(err, msg) {
-				var msgObj = func.parseMsg(msg);
+			mpd.getSong(function(res) {
+				if (res.Title !== songInfo.Title) {
+					cover.fetchCoverArt(res.Artist, res.Album, updateCoverArt);
+				}
 
-				songInfo.Artist = msgObj.Artist;
-				songInfo.Title  = msgObj.Title;
-
-				updateCoverArt(msgObj.MUSICBRAINZ_ALBUMID);
+				songInfo.Artist = res.Artist;
+				songInfo.Title  = res.Title;
 			});
 		}
 	});
 }
 
 var togglePlay = function() {
-	client.sendCommand(cmd('pause ' + (mpdStatus.state === 'pause' ? '0' : '1'), []),
-		function(err, msg) {
-			client.sendCommand(cmd('status', []), function(err, msg) {
-				var msgObj = func.parseMsg(msg);
-
-				mpdStatus.volume = msgObj.volume;
-				mpdStatus.state  = msgObj.state;
-
-				$('#playBtn')
-				.removeClass('fa-play fa-pause')
-				.addClass((mpdStatus.state === 'play' ? 'fa-pause' : 'fa-play'));
-			});
-		}
-	);
+	mpd.togglePlay(mpdStatus.state, updateStatus);
 };
-
-var prevSong = function() {
-	client.sendCommand(cmd('previous', []), function(err, msg) {
-		console.log(msg);
-	});
-};
-
-var nextSong = function() {
-	client.sendCommand(cmd('next', []), function(err, msg) {
-		console.log(msg);
-	});
-};
+var prevSong = mpd.prevSong;
+var nextSong = mpd.nextSong;
 
 var toggleSettings = function() {
 	var elem = $('.settings');
 	if (elem.hasClass('shown')) {
-		console.log(settings.host + ":" + settings.port);
 		elem.removeClass('shown');
 	} else {
 		elem.addClass('shown');
 	}
 };
 
-var updateCoverArt = function(mbid) {
-	fetchCoverArt(mbid)
-	.done(function(img) {
-		$('.cover').css('background-image', "url('" + img +"')");
-	}).fail(function(res) {
-		$('.cover').css('background-image', 'none');
-	});
-};
+var updateCoverArt = function(err, res) {
+	if (err) console.log(err);
 
-var fetchCoverArt = function(mbid) {
-	var defer = $.Deferred();
-	ca.release(mbid, function(err, res) {
-		if (res) {
-			for (var i = 0; i < res.images.length; ++i) {
-				if (res.images[i].front) {
-					defer.resolve(res.images[i].image);
-					return;
-				}
-			}
-		}
-		defer.reject();
-	});
-	return defer.promise();
+	var elem = $('.cover');
+	if (res === 'No image was found') {
+		elem.css('background-image', 'none');
+	} else {
+		elem.css('background-image', "url('" + res + "')");
+	}
 };

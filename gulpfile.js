@@ -51,11 +51,16 @@ gulp.task('mvfiles', ['jshint'], function() {
 	]).pipe(gulp.dest('dest'));
 });
 
+gulp.task('mvmodules', function() {
+	return gulp.src('./src/js/modules/*.js')
+			.pipe(gulp.dest('dest/modules'));
+});
+
 gulp.task('mvimgs', function() {
 	return gulp.src('./src/img/*.png')
 			.pipe(gulp.dest('dest/img'));
-})
+});
 
-gulp.task('compile', ['mvfiles', 'mvimgs', 'less']);
+gulp.task('compile', ['mvfiles', 'mvmodules', 'mvimgs', 'less']);
 
 gulp.task('default', ['jshint', 'compile', 'install', 'run']);
