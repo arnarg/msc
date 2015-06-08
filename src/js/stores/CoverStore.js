@@ -10,7 +10,11 @@ var CHANGE_EVENT = 'change';
 var cover = 'none';
 
 function fetchCoverArt(artist, album, fn) {
-	console.log(artist + ' ' + album);
+	if (artist === undefined || album === undefined) {
+		fn('error');
+		return;
+	}
+
 	covers.search({
 		artist: artist,
 		album:  album,
@@ -45,8 +49,10 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 						if (!err) {
 							cover = (res !== 'No image was found' ? res : 'none');
 							console.log(cover);
-							CoverStore.emitChange();
+						} else {
+							cover = 'none';
 						}
+						CoverStore.emitChange();
 					}
 				);
 				break;
