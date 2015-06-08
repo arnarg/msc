@@ -3,6 +3,6 @@ var MpdConstants = {
 	TOGGLE_PLAYBACK: null,
 	PREV: null,
 	NEXT: null
-}
+};
 
 module.exports = MpdConstants;

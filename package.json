@@ -4,7 +4,7 @@
   "description": "A simple mpd client",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron dest/"
   },
   "keywords": [
     "mpd"
@@ -19,6 +19,7 @@
     "gulp-install": "^0.4.0",
     "gulp-jshint": "^1.11.0",
     "gulp-less": "^3.0.3",
+    "gulp-react": "^3.0.1",
     "gulp-run-electron": "^1.1.1"
   },
   "dependencies": {

@@ -52,4 +52,4 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 				break;
 		}
 	})
-})
+});

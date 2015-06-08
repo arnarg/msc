@@ -30,7 +30,7 @@ function parseMsg(msg) {
 	});
 
 	return ret;
-};
+}
 
 function onUpdate() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
@@ -46,9 +46,9 @@ function onUpdate() {
 			Artist: resObj.Artist,
 			Album:  resObj.Album,
 			Title:  resObj.Title
-		}
+		};
 
-		// Update
+		MpdStore.emitChange();
 	});
 }
 

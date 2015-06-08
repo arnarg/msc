@@ -5,6 +5,7 @@ var less     = require('gulp-less');
 var electron = require('gulp-electron');
 var concat   = require('gulp-concat');
 var install  = require('gulp-install');
+var react    = require('gulp-react');
 var runElectron = require('gulp-run-electron');
 
 gulp.task('package', ['compile', 'install'], function() {
@@ -32,7 +33,12 @@ gulp.task('install', ['compile'], function() {
 });
 
 gulp.task('jshint', function() {
-	return gulp.src('./src/js/*.js')
+	return gulp.src([
+		'!./src/js/components/*.js',
+		'!./src/js/app.js',
+		'./src/js/**/*.js',
+		'main.js'
+			])
 			.pipe(jshint())
 			.pipe(jshint.reporter('default'));
 });
@@ -43,24 +49,27 @@ gulp.task('less', function() {
 			.pipe(gulp.dest('dest'));
 });
 
-gulp.task('mvfiles', ['jshint'], function() {
+gulp.task('scripts', ['jshint'], function() {
+	return gulp.src('./src/js/**/*.js')
+			.pipe(react())
+			.on('error', console.log.bind(console))
+			.pipe(gulp.dest('dest/js'));
+});
+
+gulp.task('files', function() {
 	return gulp.src([
-		'./src/js/*.js',
-		'./src/*.html',
+		'./src/index.html',
+		'main.js',
 		'package.json'
-	]).pipe(gulp.dest('dest'));
+			])
+			.pipe(gulp.dest('dest'));
 });
 
-gulp.task('mvmodules', function() {
-	return gulp.src('./src/js/modules/*.js')
-			.pipe(gulp.dest('dest/modules'));
-});
-
-gulp.task('mvimgs', function() {
+gulp.task('imgs', function() {
 	return gulp.src('./src/img/*.png')
-			.pipe(gulp.dest('dest/img'));
-});
+			.pipe(gulp.dest('dest/img/'));
+})
 
-gulp.task('compile', ['mvfiles', 'mvmodules', 'mvimgs', 'less']);
+gulp.task('compile', ['scripts', 'files', 'imgs', 'less']);
 
 gulp.task('default', ['jshint', 'compile', 'install', 'run']);

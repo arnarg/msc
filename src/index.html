@@ -6,36 +6,9 @@
 		<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
 	</head>
 	<body>
-		<div class="main">
-			<div class="background"></div>
-			<div class="cover"></div>
-			<div class="song-info" id="song-info">
-				<div class="artist">{ model.Artist | upper }</div>
-				<div class="title">{ model.Title }</div>
-			</div>
-			<div id="mousearea"></div>
-			<div class="settings" id="settings">
-				<p>HOST</p>
-				<input type="text" rv-value="model.host">
-				<p>PORT</p>
-				<input type="text" rv-value="model.port">
-			</div>
+		<div class="main" id="mscapp">
 
-			<div class="controls" id="controls">
-				<i class="fa fa-step-backward control"
-				onclick="prevSong()"
-				id="prevBtn"></i>
-				<i class="fa control"
-				onclick="togglePlay()"
-				id="playBtn"></i>
-				<i class="fa fa-step-forward control"
-				onclick="nextSong()"
-				id="nextBtn"></i>
-				<i class="fa fa-cog"
-				onclick="toggleSettings()"
-				id="settingsBtn"></i>
-			</div>
 		</div>
-		<script src="index.js"></script>
+		<script src="js/app.js"></script>
 	</body>
 </html>
