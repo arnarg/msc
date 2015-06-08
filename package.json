@@ -23,9 +23,12 @@
   },
   "dependencies": {
     "album-cover": "0.0.3",
+    "flex": "^0.2.0",
     "font-awesome": "^4.3.0",
     "jquery": "^2.1.4",
     "mpd": "^1.3.0",
+    "object-assign": "^3.0.0",
+    "react": "^0.13.3",
     "rivets": "^0.8.1"
   }
 }
