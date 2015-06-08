@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var Constants     = require('../constants/MpdConstants');
+var MscActions    = require('../actions/MscActions');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 var mpd           = require('mpd');
@@ -35,10 +36,7 @@ function parseMsg(msg) {
 function onUpdate() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
 		var resObj = parseMsg(res);
-
-		if (resObj.Title !== status.Title) {
-			// Parse cover
-		}
+		var oldAlbum = status.Album;
 
 		status = {
 			Volume: resObj.volume,
@@ -49,6 +47,10 @@ function onUpdate() {
 		};
 
 		MpdStore.emitChange();
+
+		if (resObj.Album !== oldAlbum) {
+			MscActions.updateCover();
+		}
 	});
 }
 
@@ -65,6 +67,10 @@ function nextSong() {
 }
 
 var MpdStore = assign({}, EventEmitter.prototype, {
+
+	connect: function() {
+		connect('localhost', 6600);
+	},
 
 	getStatus: function() {
 		return status;
@@ -83,9 +89,7 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 	},
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
-		var action = payload.action;
-
-		switch(action.actionType) {
+		switch(payload.actionType) {
 			case Constants.CONNECT:
 				connect('localhost', 6600);
 				break;

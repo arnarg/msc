@@ -1,5 +1,8 @@
-var React  = require('react');
-var MscApp = require('./components/MscApp');
+var React    = require('react');
+var MpdStore = require('./js/stores/MpdStore');
+var MscApp   = require('./js/components/MscApp');
+
+MpdStore.connect();
 
 React.render(
 	<MscApp />,

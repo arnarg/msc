@@ -17,18 +17,17 @@ var Controls = React.createClass({
 
 	render: function() {
 		var status = this.props.status;
-		var btnClass = "fa control" + (status.State === 'play' ? 'fa-pause' : 'fa-play');
-
+		var btnClass = "fa control" + (status.State === 'play' ? ' fa-pause' : ' fa-play');
 		return (
 			<div className="controls">
 				<i className="fa fa-step-backward control"
 				onClick={this.prevSong}
 				id="prevBtn"></i>
 				<i className={btnClass}
-				onclick={this.togglePlayback}
+				onClick={this.togglePlayback}
 				id="playBtn"></i>
 				<i className="fa fa-step-forward control"
-				onclick={this.nextSong}
+				onClick={this.nextSong}
 				id="nextBtn"></i>
 			</div>
 		);

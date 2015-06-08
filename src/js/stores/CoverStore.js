@@ -7,9 +7,10 @@ var MpdStore      = require('./MpdStore');
 
 var CHANGE_EVENT = 'change';
 
-var cover = "";
+var cover = 'none';
 
 function fetchCoverArt(artist, album, fn) {
+	console.log(artist + ' ' + album);
 	covers.search({
 		artist: artist,
 		album:  album,
@@ -36,15 +37,14 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 	},
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
-		var action = payload.action;
-
-		switch(action.actionType) {
+		switch(payload.actionType) {
 			case Constants.UPDATE:
 				var mpdStatus = MpdStore.getStatus();
 				fetchCoverArt(mpdStatus.Artist, mpdStatus.Album,
 					function(err, res) {
 						if (!err) {
-							cover = res;
+							cover = (res !== 'No image was found' ? res : 'none');
+							console.log(cover);
 							CoverStore.emitChange();
 						}
 					}
@@ -53,3 +53,5 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 		}
 	})
 });
+
+module.exports = CoverStore;
