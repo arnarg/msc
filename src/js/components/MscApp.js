@@ -1,13 +1,12 @@
 var Controls   = require('./Controls');
 var Cover      = require('./Cover')
+var SongInfo   = require('./SongInfo');
 var React      = require('react');
 var MpdStore   = require('../stores/MpdStore');
-var CoverStore = require('../stores/CoverStore');
 
 function getMscState() {
 	return {
-		status: MpdStore.getStatus(),
-		cover:  CoverStore.getCover()
+		status: MpdStore.getStatus()
 	};
 }
 
@@ -19,20 +18,25 @@ var MscApp = React.createClass({
 
 	componentDidMount: function() {
 		MpdStore.addChangeListener(this._onChange);
-		CoverStore.addChangeListener(this._onChange);
 	},
 
 	componentWillUnmount: function() {
 		MpdStore.removeChangeListener(this._onChange);
-		CoverStore.removeChangeListener(this._onChange);
 	},
 
 	render: function() {
+		var state = this.state.status.State;
+		var song = {
+			Artist: this.state.status.Artist,
+			Title:  this.state.status.Title
+		};
+
 		return (
 			<div>
 				<div className="background"></div>
-				<Cover cover={this.state.cover} />
-				<Controls status={this.state.status} />
+				<Cover />
+				<SongInfo song={song} />
+				<Controls state={state} />
 			</div>
 		);
 	},

@@ -16,8 +16,8 @@ var Controls = React.createClass({
 	},
 
 	render: function() {
-		var status = this.props.status;
-		var btnClass = "fa control" + (status.State === 'play' ? ' fa-pause' : ' fa-play');
+		var state = this.props.state;
+		var btnClass = "fa control" + (state === 'play' ? ' fa-pause' : ' fa-play');
 		return (
 			<div className="controls">
 				<i className="fa fa-step-backward control"
