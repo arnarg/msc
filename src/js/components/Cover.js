@@ -2,8 +2,9 @@ var React      = require('react');
 var CoverStore = require('../stores/CoverStore');
 
 function getCoverState() {
+	var cover = CoverStore.getCover();
 	return {
-		cover: CoverStore.getCover()
+		cover: (cover === 'none' ? 'img/background.png' : cover)
 	};
 }
 
@@ -24,7 +25,7 @@ var Cover = React.createClass({
 	render: function() {
 		var cover = this.state.cover;
 		var style = {
-			backgroundImage: (cover !== 'none' ? 'url(' + cover + ')' : cover)
+			backgroundImage: 'url(' + cover + ')'
 		}
 		return (
 			<div className="cover" style={style}>
@@ -33,7 +34,13 @@ var Cover = React.createClass({
 	},
 
 	_onChange: function() {
-		this.setState(getCoverState());
+		var self = this;
+		var cover = getCoverState();
+		var img = new Image();
+		img.onload = function() {
+			self.setState(cover);
+		};
+		img.src = cover.cover;
 	}
 
 });

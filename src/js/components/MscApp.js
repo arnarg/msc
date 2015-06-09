@@ -34,7 +34,6 @@ var MscApp = React.createClass({
 
 		return (
 			<div>
-				<div className="background"></div>
 				<Cover />
 				<SongInfo song={song} />
 				<Controls state={state} />
