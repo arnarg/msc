@@ -93,7 +93,7 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch(payload.actionType) {
 			case Constants.MPD_CONNECT:
-				connect('localhost', 6600);
+				MpdStore.connect();
 				break;
 			case Constants.MPD_TOGGLE_PLAYBACK:
 				togglePlayback();

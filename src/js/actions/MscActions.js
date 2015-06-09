@@ -3,6 +3,12 @@ var Constants     = require('../constants/Constants');
 
 var MscActions = {
 
+	connect: function() {
+		AppDispatcher.dispatch({
+			actionType: Constants.MPD_CONNECT
+		});
+	},
+
 	togglePlayback: function() {
 		AppDispatcher.dispatch({
 			actionType: Constants.MPD_TOGGLE_PLAYBACK

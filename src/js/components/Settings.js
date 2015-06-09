@@ -46,6 +46,7 @@ var Settings = React.createClass({
 				host: this.state.host,
 				port: this.state.port
 			});
+			MscActions.connect();
 		} else { // Opening
 			button[0].classList.add('active');
 			button.siblings()[0].classList.add('active')
