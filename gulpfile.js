@@ -3,7 +3,6 @@ var gulp = require('gulp');
 var jshint   = require('gulp-jshint');
 var less     = require('gulp-less');
 var electron = require('gulp-electron');
-var concat   = require('gulp-concat');
 var install  = require('gulp-install');
 var react    = require('gulp-react');
 var runElectron = require('gulp-run-electron');

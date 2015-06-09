@@ -14,7 +14,6 @@
   "devDependencies": {
     "electron-prebuilt": "^0.27.2",
     "gulp": "^3.9.0",
-    "gulp-concat": "^2.5.2",
     "gulp-electron": "0.0.5",
     "gulp-install": "^0.4.0",
     "gulp-jshint": "^1.11.0",
@@ -24,13 +23,10 @@
   },
   "dependencies": {
     "album-cover": "0.0.3",
-    "flex": "^0.2.0",
     "font-awesome": "^4.3.0",
-    "jquery": "^2.1.4",
     "keymirror": "^0.1.1",
     "mpd": "^1.3.0",
     "object-assign": "^3.0.0",
-    "react": "^0.13.3",
-    "rivets": "^0.8.1"
+    "react": "^0.13.3"
   }
 }
