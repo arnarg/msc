@@ -1,6 +1,7 @@
-var AppDispatcher  = require('../dispatcher/AppDispatcher');
-var MpdConstants   = require('../constants/MpdConstants');
-var CoverConstants = require('../constants/CoverConstants');
+var AppDispatcher     = require('../dispatcher/AppDispatcher');
+var MpdConstants      = require('../constants/MpdConstants');
+var CoverConstants    = require('../constants/CoverConstants');
+var SettingsConstants = require('../constants/SettingsConstants');
 
 var MscActions = {
 
@@ -25,6 +26,13 @@ var MscActions = {
 	updateCover: function() {
 		AppDispatcher.dispatch({
 			actionType: CoverConstants.UPDATE
+		});
+	},
+
+	saveSettings: function(settings) {
+		AppDispatcher.dispatch({
+			actionType: SettingsConstants.UPDATE_SETTINGS,
+			data: settings
 		});
 	}
 

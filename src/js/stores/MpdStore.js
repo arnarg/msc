@@ -5,6 +5,7 @@ var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 var mpd           = require('mpd');
 var cmd           = mpd.cmd;
+var SettingsStore = require('./SettingsStore');
 
 var CHANGE_EVENT = 'change';
 
@@ -69,7 +70,8 @@ function nextSong() {
 var MpdStore = assign({}, EventEmitter.prototype, {
 
 	connect: function() {
-		connect('localhost', 6600);
+		var settings = SettingsStore.getSettings();
+		connect(settings.host, settings.port);
 	},
 
 	getStatus: function() {

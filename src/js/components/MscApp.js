@@ -1,6 +1,7 @@
 var Controls   = require('./Controls');
 var Cover      = require('./Cover')
 var SongInfo   = require('./SongInfo');
+var Settings   = require('./Settings');
 var React      = require('react');
 var MpdStore   = require('../stores/MpdStore');
 
@@ -37,6 +38,7 @@ var MscApp = React.createClass({
 				<Cover />
 				<SongInfo song={song} />
 				<Controls state={state} />
+				<Settings />
 			</div>
 		);
 	},
