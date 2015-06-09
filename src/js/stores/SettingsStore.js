@@ -7,9 +7,10 @@ var ipc           = require('ipc');
 
 var CHANGE_EVENT = 'change';
 var settings = {};
+var lastSave = {};
 
 ipc.on('save-settings', function(arg) {
-	if (arg !== 'error') settings = arg;
+	if (arg !== 'error') lastSave = settings = arg;
 	else console.log('Error in saving settings');
 });
 
@@ -42,10 +43,13 @@ var SettingsStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch (payload.actionType) {
 			case Constants.SETTINGS_UPDATE:
-				ipc.send('save-settings', {
-					host: payload.data.host,
-					port: payload.data.port
-				});
+				if (lastSave.host !== payload.data.host ||
+				    lastSave.port !== payload.data.port) {
+					ipc.send('save-settings', {
+						host: payload.data.host,
+						port: payload.data.port
+					});
+				}
 				break;
 		}
 	})

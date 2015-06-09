@@ -71,6 +71,7 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 
 	connect: function() {
 		var settings = SettingsStore.getSettings();
+		console.log(settings);
 		connect(settings.host, settings.port);
 	},
 
