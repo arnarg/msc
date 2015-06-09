@@ -1,37 +1,35 @@
-var AppDispatcher     = require('../dispatcher/AppDispatcher');
-var MpdConstants      = require('../constants/MpdConstants');
-var CoverConstants    = require('../constants/CoverConstants');
-var SettingsConstants = require('../constants/SettingsConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Constants     = require('../constants/Constants');
 
 var MscActions = {
 
 	togglePlayback: function() {
 		AppDispatcher.dispatch({
-			actionType: MpdConstants.TOGGLE_PLAYBACK
+			actionType: Constants.MPD_TOGGLE_PLAYBACK
 		});
 	},
 
 	prevSong: function() {
 		AppDispatcher.dispatch({
-			actionType: MpdConstants.PREV
+			actionType: Constants.MPD_PREV
 		});
 	},
 
 	nextSong: function() {
 		AppDispatcher.dispatch({
-			actionType: MpdConstants.NEXT
+			actionType: Constants.MPD_NEXT
 		});
 	},
 
 	updateCover: function() {
 		AppDispatcher.dispatch({
-			actionType: CoverConstants.UPDATE
+			actionType: Constants.COVER_UPDATE
 		});
 	},
 
 	saveSettings: function(settings) {
 		AppDispatcher.dispatch({
-			actionType: SettingsConstants.UPDATE_SETTINGS,
+			actionType: Constants.SETTINGS_UPDATE,
 			data: settings
 		});
 	}

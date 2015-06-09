@@ -1,9 +1,8 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var Constants     = require('../constants/SettingsConstants');
+var Constants     = require('../constants/Constants');
 var MscActions    = require('../actions/MscActions');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
-var remote        = require('remote');
 var ipc           = require('ipc');
 
 var CHANGE_EVENT = 'change';
@@ -42,7 +41,7 @@ var SettingsStore = assign({}, EventEmitter.prototype, {
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch (payload.actionType) {
-			case Constants.UPDATE_SETTINGS:
+			case Constants.SETTINGS_UPDATE:
 				ipc.send('save-settings', {
 					host: payload.data.host,
 					port: payload.data.port

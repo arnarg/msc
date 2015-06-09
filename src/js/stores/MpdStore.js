@@ -1,5 +1,5 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var Constants     = require('../constants/MpdConstants');
+var Constants     = require('../constants/Constants');
 var MscActions    = require('../actions/MscActions');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
@@ -92,16 +92,16 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch(payload.actionType) {
-			case Constants.CONNECT:
+			case Constants.MPD_CONNECT:
 				connect('localhost', 6600);
 				break;
-			case Constants.TOGGLE_PLAYBACK:
+			case Constants.MPD_TOGGLE_PLAYBACK:
 				togglePlayback();
 				break;
-			case Constants.PREV:
+			case Constants.MPD_PREV:
 				prevSong();
 				break;
-			case Constants.NEXT:
+			case Constants.MPD_NEXT:
 				nextSong();
 				break;
 		}

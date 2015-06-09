@@ -1,6 +1,6 @@
 var covers        = require('album-cover')('a8515cff0a4856bbb5c5eae24fdc411b');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var Constants     = require('../constants/CoverConstants');
+var Constants     = require('../constants/Constants');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 var MpdStore      = require('./MpdStore');
@@ -42,7 +42,7 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch(payload.actionType) {
-			case Constants.UPDATE:
+			case Constants.COVER_UPDATE:
 				var mpdStatus = MpdStore.getStatus();
 				fetchCoverArt(mpdStatus.Artist, mpdStatus.Album,
 					function(err, res) {
