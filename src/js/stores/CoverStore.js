@@ -48,7 +48,6 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 					function(err, res) {
 						if (!err) {
 							cover = (res !== 'No image was found' ? res : 'none');
-							console.log(cover);
 						} else {
 							cover = 'none';
 						}
