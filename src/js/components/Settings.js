@@ -4,6 +4,7 @@ var SettingsStore = require('../stores/SettingsStore');
 var MscActions    = require('../actions/MscActions');
 
 var active = false;
+var dirty = false;
 
 function getSettingsState() {
 	return SettingsStore.getSettings();
@@ -34,6 +35,7 @@ var Settings = React.createClass({
 				currentState.port = value;
 				break;
 		}
+		dirty = true;
 		this.setState(currentState);
 	},
 
@@ -42,11 +44,14 @@ var Settings = React.createClass({
 		if (active) { // Closing
 			button[0].classList.remove('active');
 			button.siblings()[0].classList.remove('active');
-			MscActions.saveSettings({
-				host: this.state.host,
-				port: this.state.port
-			});
-			setTimeout(MscActions.connect, 200);
+			if (dirty) {
+				MscActions.saveSettings({
+					host: this.state.host,
+					port: this.state.port
+				});
+				setTimeout(MscActions.connect, 200);
+				dirty = false;
+			}
 		} else { // Opening
 			button[0].classList.add('active');
 			button.siblings()[0].classList.add('active')

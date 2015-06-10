@@ -43,13 +43,10 @@ var SettingsStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch (payload.actionType) {
 			case Constants.SETTINGS_UPDATE:
-				if (lastSave.host !== payload.data.host ||
-				    lastSave.port !== payload.data.port) {
-					ipc.send('save-settings', {
-						host: payload.data.host,
-						port: payload.data.port
-					});
-				}
+				ipc.send('save-settings', {
+					host: payload.data.host,
+					port: payload.data.port
+				});
 				break;
 		}
 	})
