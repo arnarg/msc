@@ -1,9 +1,10 @@
-var Controls   = require('./Controls');
-var Cover      = require('./Cover')
-var SongInfo   = require('./SongInfo');
-var Settings   = require('./Settings');
-var React      = require('react');
-var MpdStore   = require('../stores/MpdStore');
+var Controls    = require('./Controls');
+var Cover       = require('./Cover')
+var SongInfo    = require('./SongInfo');
+var Settings    = require('./Settings');
+var ProgressBar = require('./ProgressBar');
+var React       = require('react');
+var MpdStore    = require('../stores/MpdStore');
 
 function getMscState() {
 	return {
@@ -31,11 +32,16 @@ var MscApp = React.createClass({
 			Artist: this.state.status.Artist,
 			Title:  this.state.status.Title
 		};
+		var progress = {
+			Time: this.state.status.Elapsed,
+			Duration: this.state.status.Duration
+		};
 
 		return (
 			<div>
 				<Cover />
 				<SongInfo song={song} />
+				<ProgressBar progress={progress} />
 				<Controls state={state} />
 				<Settings />
 			</div>

@@ -11,11 +11,13 @@ var CHANGE_EVENT = 'change';
 
 var client; // Reference to mpd connection
 var status = {
-	Volume: 100,
-	State:  'stop',
-	Artist: '',
-	Album:  '',
-	Title:  ''
+	Volume:  100,
+	State:   'stop',
+	Artist:  '',
+	Album:   '',
+	Title:   '',
+	Elapsed: '',
+	Duration:''
 };
 
 function connect(host, port) {
@@ -44,13 +46,19 @@ function onUpdate() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
 		var resObj = parseMsg(res);
 		var oldAlbum = status.Album;
+		
+		var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
+		var Elapsed = Time[1];
+		var Duration = Time[2];
 
 		status = {
-			Volume: resObj.volume,
-			State:  resObj.state,
-			Artist: resObj.Artist,
-			Album:  resObj.Album,
-			Title:  resObj.Title
+			Volume:   resObj.volume,
+			State:    resObj.state,
+			Artist:   resObj.Artist,
+			Album:    resObj.Album,
+			Title:    resObj.Title,
+			Elapsed:  parseInt(Elapsed),
+			Duration: parseInt(Duration)
 		};
 
 		MpdStore.emitChange();
@@ -58,6 +66,8 @@ function onUpdate() {
 		if (resObj.Album !== oldAlbum) {
 			MscActions.updateCover();
 		}
+
+		if (status.State === 'play') setTimeout(onUpdate, 200);
 	});
 }
 

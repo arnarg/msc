@@ -45,11 +45,31 @@ body {
 		}
 
 		& #mousearea {
-			background: none;
 			position: absolute;
 			height: 300px;
 			width: 300px;
 		}
+
+        & .progress-bar {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            height: 2px;
+            background-color: none;
+            transition: background-color 0.5s linear,
+                        height 0.2s linear;
+
+            &:hover {
+                height: 5px;
+                background-color: @dark-grey-color;
+            }
+
+            & .progress {
+                background-color: @red-color;
+                height: 100vh;
+                transition: width 0.2s linear;
+            }
+        }
 
 		& .settings {
 			position: absolute;
