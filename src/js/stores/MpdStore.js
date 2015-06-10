@@ -9,8 +9,14 @@ var SettingsStore = require('./SettingsStore');
 
 var CHANGE_EVENT = 'change';
 
-var client = {}; // Reference to mpd connection
-var status = {};
+var client; // Reference to mpd connection
+var status = {
+	Volume: 100,
+	State:  'stop',
+	Artist: '',
+	Album:  '',
+	Title:  ''
+};
 
 function connect(host, port) {
 	client = mpd.connect({

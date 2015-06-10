@@ -18,7 +18,7 @@ var SongInfo = React.createClass({
 			     onMouseEnter={this._mouseEnter}
 			     onMouseLeave={this._mouseLeave}>
 				<div className="song-info" id="cover">
-					<div className="artist">{ song.Artist }</div>
+					<div className="artist">{ song.Artist.toUpperCase() }</div>
 					<div className="title">{ song.Title }</div>
 				</div>
 			</div>
