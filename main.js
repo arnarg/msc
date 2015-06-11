@@ -3,32 +3,8 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 var nconf = require('nconf');
 var path = require('path');
 var ipc = require('ipc');
-
-// Report crashes to our server.
-require('crash-reporter').start();
-
-// Settings
-nconf.use('file', {file: path.join(app.getPath('userData'), 'config.json')});
-nconf.load();
-
-ipc.on('save-settings', function(event, arg) {
-	nconf.set('host', arg.host);
-	nconf.set('port', (typeof arg.port === 'string' ? parseInt(arg.port) : arg.port));
-	nconf.save(function(err) {
-		var settings = {
-			host: nconf.get('host'),
-			port: nconf.get('port')
-		};
-		event.sender.send('save-settings', (err ? 'error' : settings));
-	});
-});
-
-ipc.on('get-settings', function(event, arg) {
-	event.returnValue = {
-		host: nconf.get('host') || 'localhost',
-		port: nconf.get('port') || 6600
-	};
-});
+var mpd = require('mpd');
+var cmd = mpd.cmd;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -63,4 +39,111 @@ app.on('ready', function() {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+});
+
+
+// Settings
+nconf.use('file', {file: path.join(app.getPath('userData'), 'config.json')});
+nconf.load();
+
+ipc.on('save-settings', function(event, arg) {
+	nconf.set('host', arg.host);
+	nconf.set('port', (typeof arg.port === 'string' ? parseInt(arg.port) : arg.port));
+	nconf.save(function(err) {
+		var settings = {
+			host: nconf.get('host'),
+			port: nconf.get('port')
+		};
+		event.sender.send('save-settings', (err ? 'error' : settings));
+	});
+});
+
+ipc.on('get-settings', function(event, arg) {
+	event.returnValue = {
+		host: nconf.get('host') || 'localhost',
+		port: nconf.get('port') || 6600
+	};
+});
+
+
+// Mpd
+var client;
+var timeout;
+var playing;
+var canConnect = true;
+
+ipc.on('connect', connect);
+
+function connect(event) {
+	if (canConnect) {
+		canConnect = false;
+		client = mpd.connect({
+			host: nconf.get('host') || 'localhost',
+			port: nconf.get('port') || 6600
+		});
+
+		client.on('ready', function() {
+			event.sender.send('connection-success');
+			updateStatus();
+			client.on('system-player', updateStatus);
+		});
+		client.on('end', function() {
+			event.sender.send('connection-fail');
+			canConnect = true;
+		});
+	}
+}
+
+function updateStatus() {
+	client.sendCommands(['status', 'currentsong'], function(err, res) {
+		var resObj = parseMsg(res);
+
+		var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
+		var Elapsed = Time[1];
+		var Duration = Time[2];
+
+		playing = resObj.state === 'play';
+
+		var status = {
+			Volume:   resObj.volume,
+			State:    resObj.state,
+			Artist:   resObj.Artist,
+			Album:    resObj.Album,
+			Title:    resObj.Title,
+			Elapsed:  parseInt(Elapsed),
+			Duration: parseInt(Duration)
+		};
+
+		mainWindow.webContents.send('status-update', status);
+
+		if (status.State === 'play' && (!timeout || timeout._called)) {
+			timeout = setTimeout(updateStatus, 500);
+		}
+	});
+}
+
+function parseMsg(msg) {
+	var lines = msg.split('\n');
+	var ret = {};
+
+	lines.forEach(function(line) {
+		var capture = /([A-Za-z_]+): (.+)/i.exec(line);
+		if (capture) ret[capture[1]] = capture[2];
+	});
+
+	return ret;
+}
+
+ipc.on('connect', connect);
+
+ipc.on('toggle-playback', function() {
+	client.sendCommand(cmd('pause ' + (playing ? '1' : '0'), []));
+});
+
+ipc.on('prev-song', function() {
+	client.sendCommand(cmd('previous', []));
+});
+
+ipc.on('next-song', function() {
+	client.sendCommand(cmd('next', []));
 });

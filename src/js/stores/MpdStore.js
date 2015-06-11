@@ -3,13 +3,11 @@ var Constants     = require('../constants/Constants');
 var MscActions    = require('../actions/MscActions');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
-var mpd           = require('mpd');
-var cmd           = mpd.cmd;
 var SettingsStore = require('./SettingsStore');
+var ipc           = require('ipc');
 
 var CHANGE_EVENT = 'change';
 
-var client; // Reference to mpd connection
 var status = {
 	Volume:  100,
 	State:   'stop',
@@ -20,74 +18,26 @@ var status = {
 	Duration:''
 };
 
-function connect(host, port) {
-	client = mpd.connect({
-		host: host,
-		port: port
-	});
+ipc.on('connection-success', function() {
+	// turn off spinner
+});
 
-	client.on('ready', onUpdate);
-	client.on('system-player', onUpdate);
-}
+ipc.on('connection-fail', function() {
+	// turn on spinner
+});
 
-function parseMsg(msg) {
-	var lines = msg.split('\n');
-	var ret = {};
+ipc.on('status-update', function(data) {
+	var oldAlbum = status.Album;
+	status = data;
+	MpdStore.emitChange();
 
-	lines.forEach(function(line) {
-		var capture = /([A-Za-z_]+): (.+)/i.exec(line);
-		if (capture) ret[capture[1]] = capture[2];
-	});
-
-	return ret;
-}
-
-function onUpdate() {
-	client.sendCommands(['status', 'currentsong'], function(err, res) {
-		var resObj = parseMsg(res);
-		var oldAlbum = status.Album;
-		
-		var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
-		var Elapsed = Time[1];
-		var Duration = Time[2];
-
-		status = {
-			Volume:   resObj.volume,
-			State:    resObj.state,
-			Artist:   resObj.Artist,
-			Album:    resObj.Album,
-			Title:    resObj.Title,
-			Elapsed:  parseInt(Elapsed),
-			Duration: parseInt(Duration)
-		};
-
-		MpdStore.emitChange();
-
-		if (resObj.Album !== oldAlbum) {
-			MscActions.updateCover();
-		}
-
-		if (status.State === 'play') setTimeout(onUpdate, 200);
-	});
-}
-
-function togglePlayback() {
-	client.sendCommand(cmd('pause ' + (status.State === 'pause' ? '0' : '1'), []));
-}
-
-function prevSong() {
-	client.sendCommand(cmd('previous', []));
-}
-
-function nextSong() {
-	client.sendCommand(cmd('next', []));
-}
+	if (status.Album !== oldAlbum) MscActions.updateCover();
+});
 
 var MpdStore = assign({}, EventEmitter.prototype, {
 
 	connect: function() {
-		var settings = SettingsStore.getSettings();
-		connect(settings.host, settings.port);
+		ipc.send('connect');
 	},
 
 	getStatus: function() {
@@ -109,20 +59,18 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch(payload.actionType) {
 			case Constants.MPD_CONNECT:
-				MpdStore.connect();
+				ipc.send('connect');
 				break;
 			case Constants.MPD_TOGGLE_PLAYBACK:
-				togglePlayback();
+				ipc.send('toggle-playback');
 				break;
 			case Constants.MPD_PREV:
-				prevSong();
+				ipc.send('prev-song');
 				break;
 			case Constants.MPD_NEXT:
-				nextSong();
+				ipc.send('next-song');
 				break;
 		}
-
-		MpdStore.emitChange();
 	})
 });
 
