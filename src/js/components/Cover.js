@@ -10,6 +10,14 @@ function getCoverState() {
 
 var Cover = React.createClass({
 
+	_mouseEnter: function(event) {
+		event.currentTarget.children.songInfo.classList.add('shown');
+	},
+
+	_mouseLeave: function(event) {
+		event.currentTarget.children.songInfo.classList.remove('shown');
+	},
+
 	getInitialState: function() {
 		return getCoverState();
 	},
@@ -24,11 +32,18 @@ var Cover = React.createClass({
 
 	render: function() {
 		var cover = this.state.cover;
+		var song = this.props.song;
 		var style = {
 			backgroundImage: 'url(' + cover + ')'
 		}
 		return (
-			<div className="cover" style={style}>
+			<div className="cover" style={style}
+			     onMouseEnter={this._mouseEnter}
+			     onMouseLeave={this._mouseLeave}>
+				<div className="song-info" id="songInfo">
+					<div className="artist">{ song.Artist.toUpperCase() }</div>
+					<div className="title">{ song.Title }</div>
+				</div>
 			</div>
 		);
 	},

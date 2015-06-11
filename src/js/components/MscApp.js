@@ -38,9 +38,8 @@ var MscApp = React.createClass({
 		};
 
 		return (
-			<div>
-				<Cover />
-				<SongInfo song={song} />
+			<div className="flex-container">
+				<Cover song={song} />
 				<ProgressBar progress={progress} />
 				<Controls state={state} />
 				<Settings />
