@@ -27,6 +27,13 @@ var MscActions = {
 		});
 	},
 
+	seekPos: function(pos) {
+		AppDispatcher.dispatch({
+			actionType: Constants.MPD_SEEK,
+			data: pos
+		});
+	},
+
 	updateCover: function() {
 		AppDispatcher.dispatch({
 			actionType: Constants.COVER_UPDATE

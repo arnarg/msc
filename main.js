@@ -147,3 +147,7 @@ ipc.on('prev-song', function() {
 ipc.on('next-song', function() {
 	client.sendCommand(cmd('next', []));
 });
+
+ipc.on('seek', function(event, arg) {
+	client.sendCommand(cmd('seekcur ' + arg, []));
+});

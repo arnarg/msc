@@ -70,6 +70,9 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 			case Constants.MPD_NEXT:
 				ipc.send('next-song');
 				break;
+			case Constants.MPD_SEEK:
+				ipc.send('seek', payload.data.percent * status.Duration);
+				break;
 		}
 	})
 });
