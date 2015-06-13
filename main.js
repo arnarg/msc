@@ -18,13 +18,13 @@ console.log(process.platform);
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
-	var height = 350;
+	var height = 290;
 	// Adding the height of the window bar
 	if (process.platform === "darwin") height += 22;
 
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		width: 300,
+		width: 250,
 		height: height,
 		resizable: false,
 		fullscreen: false
