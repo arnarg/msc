@@ -71,7 +71,9 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 				ipc.send('next-song');
 				break;
 			case Constants.MPD_SEEK:
-				ipc.send('seek', payload.data.percent * status.Duration);
+				var percent = payload.data.percent;
+				if (percent <= 0.01) percent = 0;
+				ipc.send('seek', percent * status.Duration);
 				break;
 		}
 	})
