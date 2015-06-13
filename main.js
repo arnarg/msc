@@ -14,14 +14,18 @@ var mainWindow = null;
 app.on('window-all-closed', function() {
 	app.quit();
 });
-
+console.log(process.platform);
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
+	var height = 350;
+	// Adding the height of the window bar
+	if (process.platform === "darwin") height += 22;
+
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
 		width: 300,
-		height: 350,
+		height: height,
 		resizable: false,
 		fullscreen: false
 	});
@@ -30,7 +34,7 @@ app.on('ready', function() {
 	mainWindow.loadUrl('file://' + __dirname + '/index.html');
 
 	// Open the devtools.
-	mainWindow.openDevTools();
+	//mainWindow.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function() {
