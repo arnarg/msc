@@ -102,9 +102,11 @@ function updateStatus() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
 		var resObj = parseMsg(res);
 
-		var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
-		var Elapsed = Time[1];
-		var Duration = Time[2];
+		if (resObj.state !== 'stop')
+			var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
+
+		var Elapsed = (Time ? Time[1] : 1);
+		var Duration = (Time ? Time[2] : 1);
 
 		playing = resObj.state === 'play';
 
@@ -132,7 +134,7 @@ function parseMsg(msg) {
 
 	lines.forEach(function(line) {
 		var capture = /([A-Za-z_]+): (.+)/i.exec(line);
-		if (capture) ret[capture[1]] = capture[2];
+		if (capture && capture[1]) ret[capture[1]] = capture[2];
 	});
 
 	return ret;
