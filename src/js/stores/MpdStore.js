@@ -72,7 +72,7 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 				break;
 			case Constants.MPD_SEEK:
 				var percent = payload.data.percent;
-				if (percent <= 0.01) percent = 0;
+				if (percent <= 0.015) percent = 0;
 				ipc.send('seek', percent * status.Duration);
 				break;
 		}
