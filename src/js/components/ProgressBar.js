@@ -12,9 +12,8 @@ var ProgressBar = React.createClass({
 	},
 
 	render: function() {
-		console.log('before');
 		var width = ((this.props.progress.Time / this.props.progress.Duration) * 100) + '%';
-		console.log('after');
+
 		return (
 			<div className="progress-bar" onClick={this._onClick}>
 				<div className="progress" style={{width: width}} />
