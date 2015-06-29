@@ -11,12 +11,21 @@ function getCoverState() {
 
 var Cover = React.createClass({
 
+	_timeout: 0,
+
 	_mouseEnter: function(event) {
-		event.currentTarget.children.songInfo.classList.add('active');
+		clearTimeout(this._timeout);
 	},
 
 	_mouseLeave: function(event) {
-		event.currentTarget.children.songInfo.classList.remove('active');
+		var songInfo = $(event.currentTarget);
+
+		songInfo.on('mouseenter', this._mouseEnter);
+
+		this._timeout = setTimeout(function() {
+			songInfo.off('mouseleave mouseenter');
+			songInfo.removeClass('active');
+		}, 5000);
 	},
 
 	_onClick: function(event) {
@@ -27,11 +36,7 @@ var Cover = React.createClass({
 			songInfo.off('mouseleave');
 		} else {
 			songInfo.addClass('active');
-			songInfo.on('mouseleave', function() {
-				setTimeout(function() {
-					songInfo.removeClass('active');
-				}, 5000);
-			});
+			songInfo.on('mouseleave', this._mouseLeave);
 		}
 	},
 
