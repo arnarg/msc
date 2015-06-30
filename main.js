@@ -14,7 +14,7 @@ var mainWindow = null;
 app.on('window-all-closed', function() {
 	app.quit();
 });
-console.log(process.platform);
+
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
