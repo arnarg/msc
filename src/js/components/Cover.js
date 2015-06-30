@@ -1,5 +1,6 @@
 var React      = require('react');
 var CoverStore = require('../stores/CoverStore');
+var MscActions = require('../actions/MscActions');
 var $          = require('jquery');
 
 function getCoverState() {
@@ -54,15 +55,36 @@ var Cover = React.createClass({
 
 	render: function() {
 		var cover = this.state.cover;
-		var song = this.props.song;
+		var data = this.props.overlay;
 		var style = {
 			backgroundImage: 'url(' + cover + ')'
 		};
+		var options = [
+			{
+				ID:       1,
+				Class:    "fa fa-random",
+				Selected: data.Random,
+				Func: function(event) {
+					MscActions.random();
+					event.stopPropagation();
+				}
+			},
+			{
+				ID:       2,
+				Class:    "fa fa-repeat",
+				Selected: data.Repeat,
+				Func: function(event) {
+					MscActions.repeat();
+					event.stopPropagation();
+				}
+			}
+		];
 		var optElems = [];
 		options.forEach(function(option) {
+			var Class = option.Class + (option.Selected ? ' active' : '');
 			optElems.push(
-				<div className="option">
-					<i className={option.Class} onClick={option.Func}></i>
+				<div className="option" key={option.ID}>
+					<i className={Class} onClick={option.Func}></i>
 				</div>
 			);
 		});
@@ -70,8 +92,8 @@ var Cover = React.createClass({
 			<div className="cover" style={style}
 			     onClick={this._onClick}>
 				<div className="song-info" id="songInfo">
-					<div className="artist">{ song.Artist.toUpperCase() }</div>
-					<div className="title">{ song.Title }</div>
+					<div className="artist">{ data.Artist.toUpperCase() }</div>
+					<div className="title">{ data.Title }</div>
 					<div className="playback-options">
 						{optElems}
 					</div>
@@ -91,22 +113,5 @@ var Cover = React.createClass({
 	}
 
 });
-
-var options = [
-	{
-		Class: "fa fa-random",
-		Func:  function(event) {
-			console.log('shuffle clicked');
-			event.stopPropagation();
-		}
-	},
-	{
-		Class: "fa fa-repeat",
-		Func: function(event) {
-			console.log('repeat clicked');
-			event.stopPropagation();
-		}
-	}
-];
 
 module.exports = Cover;

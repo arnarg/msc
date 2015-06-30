@@ -101,9 +101,10 @@ function connect(event) {
 function updateStatus() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
 		var resObj = parseMsg(res);
+		var Time;
 
 		if (resObj.state !== 'stop')
-			var Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
+			Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
 
 		var Elapsed = (Time ? Time[1] : 1);
 		var Duration = (Time ? Time[2] : 1);
@@ -117,7 +118,9 @@ function updateStatus() {
 			Album:    resObj.Album,
 			Title:    resObj.Title,
 			Elapsed:  parseInt(Elapsed),
-			Duration: parseInt(Duration)
+			Duration: parseInt(Duration),
+			Repeat:   parseInt(resObj.repeat),
+			Random:   parseInt(resObj.random)
 		};
 
 		mainWindow.webContents.send('status-update', status);
@@ -156,4 +159,12 @@ ipc.on('next-song', function() {
 
 ipc.on('seek', function(event, arg) {
 	client.sendCommand(cmd('seekcur ' + arg, []));
+});
+
+ipc.on('random', function(event, arg) {
+	client.sendCommand(cmd('random ' + arg, []));
+});
+
+ipc.on('repeat', function(event, arg) {
+	client.sendCommand(cmd('repeat ' + arg, []));
 });

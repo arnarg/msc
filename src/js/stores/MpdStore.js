@@ -15,7 +15,9 @@ var status = {
 	Album:   '',
 	Title:   '',
 	Elapsed: '',
-	Duration:''
+	Duration:'',
+	Random:  0,
+	Repeat:  0
 };
 
 ipc.on('connection-success', function() {
@@ -74,6 +76,12 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 				var percent = payload.data.percent;
 				if (percent <= 0.015) percent = 0;
 				ipc.send('seek', percent * status.Duration);
+				break;
+			case Constants.MPD_REPEAT:
+				ipc.send('repeat', (status.Repeat ? '0' : '1'));
+				break;
+			case Constants.MPD_RANDOM:
+				ipc.send('random', (status.Random ? '0' : '1'));
 				break;
 		}
 	})

@@ -28,9 +28,11 @@ var MscApp = React.createClass({
 
 	render: function() {
 		var state = this.state.status.State;
-		var song = {
+		var overlay = {
 			Artist: this.state.status.Artist,
-			Title:  this.state.status.Title
+			Title:  this.state.status.Title,
+			Repeat: this.state.status.Repeat,
+			Random: this.state.status.Random
 		};
 		var progress = {
 			Time: this.state.status.Elapsed,
@@ -39,7 +41,7 @@ var MscApp = React.createClass({
 
 		return (
 			<div className="flex-container">
-				<Cover song={song} />
+				<Cover overlay={overlay} />
 				<ProgressBar progress={progress} />
 				<Controls state={state} />
 				<Settings />

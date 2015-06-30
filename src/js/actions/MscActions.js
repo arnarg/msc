@@ -34,6 +34,18 @@ var MscActions = {
 		});
 	},
 
+	random: function() {
+		AppDispatcher.dispatch({
+			actionType: Constants.MPD_RANDOM
+		});
+	},
+
+	repeat: function() {
+		AppDispatcher.dispatch({
+			actionType: Constants.MPD_REPEAT
+		});
+	},
+
 	updateCover: function() {
 		AppDispatcher.dispatch({
 			actionType: Constants.COVER_UPDATE
