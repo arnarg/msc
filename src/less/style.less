@@ -162,7 +162,27 @@ body {
     			}
     		}
 
-            & #settingsBtn {
+            & .menu {
+                position: absolute;
+                bottom: @control-height - 16px; // quick dirty fix
+                right: 5px;
+                background-color: #eeeeee;
+                list-style-type: none;
+                padding: 0;
+                cursor: default;
+                -webkit-user-select: none;
+                display: none;
+
+                & li {
+                    padding: 8px 10px;
+
+                    &:hover {
+                        background-color: #dddddd;
+                    }
+                }
+            }
+
+            & #menu-btn {
                 position: absolute;
                 bottom: 12px;
                 right: 12px;

@@ -1,7 +1,7 @@
 var Controls    = require('./Controls');
 var Cover       = require('./Cover')
 var SongInfo    = require('./SongInfo');
-var Settings    = require('./Settings');
+var Menu        = require('./Menu');
 var ProgressBar = require('./ProgressBar');
 var React       = require('react');
 var MpdStore    = require('../stores/MpdStore');
@@ -44,7 +44,7 @@ var MscApp = React.createClass({
 				<Cover overlay={overlay} />
 				<ProgressBar progress={progress} />
 				<Controls state={state} />
-				<Settings />
+				<Menu />
 			</div>
 		);
 	},
