@@ -6,10 +6,11 @@ var Menu = React.createClass({
 	_show: function(menuElem) {
 		var self = this;
 		menuElem.show();
-		menuElem.on('click', function() {
+		menuElem.on('click', function(event) {
 			event.stopPropagation();
 		});
-		$('.flex-container').on('click', function() {
+		$('.flex-container').on('click', function(event) {
+			event.stopPropagation();
 			self._hide(menuElem);
 		});
 	},
