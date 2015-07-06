@@ -27,7 +27,8 @@ app.on('ready', function() {
 		width: 250,
 		height: height,
 		resizable: false,
-		fullscreen: false
+		fullscreen: false,
+		'auto-hide-menu-bar': true
 	});
 
 	// and load the index.html of the app.
