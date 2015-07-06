@@ -3,24 +3,30 @@ var $     = require('jquery');
 
 var Menu = React.createClass({
 
+	_show: function(menuElem) {
+		var self = this;
+		menuElem.show();
+		menuElem.on('click', function() {
+			event.stopPropagation();
+		});
+		$('.flex-container').on('click', function() {
+			self._hide(menuElem);
+		});
+	},
+
+	_hide: function(menuElem) {
+		menuElem.hide();
+		menuElem.off('click');
+		$('.flex-container').off('click');
+	},
+
 	_onClick: function(event) {
-		var button = $(event.currentTarget);
-		var menu   = $(button.siblings()[0]);
+		var menu = $($(event.currentTarget).siblings()[0]);
 
 		if (menu.css('display') === 'none') {
-			menu.show();
-			menu.on('click', function(event) {
-				event.stopPropagation();
-			});
-			$('.flex-container').on('click', function(event) {
-				menu.hide();
-				menu.off('click');
-				$('.flex-container').off('click');
-			});
+			this._show(menu);
 		} else {
-			menu.hide();
-			menu.off('click');
-			$('.flex-container').off('click');
+			this._hide(menu);
 		}
 	},
 
