@@ -1,16 +1,31 @@
 var React = require('react');
 var $     = require('jquery');
 
+var options = [
+	{
+		title: 'Playlist',
+		faIcon: 'fa-list',
+		onClick: function() {
+			console.log('clicked playlist');
+		}
+	},
+	{
+		title: 'Settings',
+		faIcon: 'fa-cog',
+		onClick: function() {
+			$('.settings').addClass('active');
+		}
+	}
+];
+
 var Menu = React.createClass({
 
 	_show: function(menuElem) {
 		var self = this;
 		menuElem.show();
-		menuElem.on('click', function(event) {
-			event.stopPropagation();
-		});
+		// Clicking outside the menu closes it
 		$('.flex-container').on('click', function(event) {
-			event.stopPropagation();
+			//event.stopPropagation();
 			self._hide(menuElem);
 		});
 	},
@@ -23,7 +38,7 @@ var Menu = React.createClass({
 
 	_onClick: function(event) {
 		var menu = $($(event.currentTarget).siblings()[0]);
-
+		// Menu is hidden
 		if (menu.css('display') === 'none') {
 			this._show(menu);
 		} else {
@@ -32,11 +47,20 @@ var Menu = React.createClass({
 	},
 
 	render: function() {
+		var opts = [];
+		for (var i = 0; i < options.length; ++i) {
+			var className = 'fa ' + options[i].faIcon;
+			opts.push(
+				<li onClick={options[i].onClick.bind(this)} key={i}>
+					<i className={className}></i> {options[i].title}
+				</li>
+			);
+		}
+
 		return (
 			<div>
 				<ul className="menu">
-					<li><i className="fa fa-list"></i> Playlist</li>
-					<li><i className="fa fa-cog"></i> Settings</li>
+					{opts}
 				</ul>
 				<i className="fa fa-bars"
 				   id="menu-btn"

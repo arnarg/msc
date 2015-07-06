@@ -3,7 +3,6 @@ var $             = require('jquery');
 var SettingsStore = require('../stores/SettingsStore');
 var MscActions    = require('../actions/MscActions');
 
-var active = false;
 var dirty = false;
 
 function getSettingsState() {
@@ -39,45 +38,33 @@ var Settings = React.createClass({
 		this.setState(currentState);
 	},
 
-	toggleSettings: function(event) {
-		var button = $(event.currentTarget);
-		if (active) { // Closing
-			button[0].classList.remove('active');
-			button.siblings()[0].classList.remove('active');
-			if (dirty) {
-				MscActions.saveSettings({
-					host: this.state.host,
-					port: this.state.port
-				});
-				setTimeout(MscActions.connect, 200);
-				dirty = false;
-			}
-		} else { // Opening
-			button[0].classList.add('active');
-			button.siblings()[0].classList.add('active')
+	_onClick: function(event) {
+		$('.settings').removeClass('active');
+
+		if (dirty) {
+			MscActions.saveSettings({
+				host: this.state.host,
+				port: this.state.port
+			});
+			setTimeout(MscActions.connect, 200);
+			dirty = false;
 		}
-		active = !active;
 	},
 
 	render: function() {
 		return (
-			<div>
-				<div className="settings">
-					<p>HOST</p>
-					<input type="text"
-					       id="host"
-					       value={this.state.host}
-					       onChange={this.handleChange} />
-					<p>PORT</p>
-					<input type="text"
-					       id="port"
-					       value={this.state.port}
-					       onChange={this.handleChange} />
-				</div>
-				<i className="fa fa-cog"
-				   onClick={this.toggleSettings}
-				   id="settingsBtn">
-				</i>
+			<div className="settings">
+				<p>HOST</p>
+				<input type="text"
+				       id="host"
+				       value={this.state.host}
+				       onChange={this.handleChange} />
+				<p>PORT</p>
+				<input type="text"
+				       id="port"
+				       value={this.state.port}
+				       onChange={this.handleChange} />
+				<div className="save-btn" onClick={this._onClick}>SAVE</div>
 			</div>
 		);
 	},

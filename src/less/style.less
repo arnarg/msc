@@ -139,6 +139,7 @@ body {
                 box-sizing: border-box;
     			padding: 10px;
                 transition: visibility 0s linear 0.5s,opacity 0.5s linear;
+                -webkit-user-select: none;
 
     			&.active {
     				visibility: visible;
@@ -160,6 +161,15 @@ body {
     				font-size: 25px;
     				color: @dark-grey-color;
     			}
+
+                & .save-btn {
+                    font-size: 20px;
+                    color: @white-color;
+                    position: absolute;
+                    bottom: 10px;
+                    right: 15px;
+                    cursor: pointer;
+                }
     		}
 
             & .menu {
