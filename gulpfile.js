@@ -5,6 +5,7 @@ var less     = require('gulp-less');
 var electron = require('gulp-electron');
 var install  = require('gulp-install');
 var react    = require('gulp-react');
+var path     = require('path');
 var runElectron = require('gulp-run-electron');
 
 gulp.task('package', ['compile', 'install'], function() {
@@ -44,7 +45,9 @@ gulp.task('jshint', function() {
 
 gulp.task('less', function() {
 	return gulp.src('./src/less/style.less')
-			.pipe(less())
+			.pipe(less({
+				paths: [ path.join(__dirname, 'src', 'shared', 'less')]
+			}))
 			.pipe(gulp.dest('dest'));
 });
 
