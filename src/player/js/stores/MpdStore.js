@@ -21,11 +21,11 @@ var status = {
 };
 
 ipc.on('connection-success', function() {
-	// turn off spinner
+	// TODO: turn off spinner
 });
 
 ipc.on('connection-fail', function() {
-	// turn on spinner
+	// TODO: turn on spinner
 });
 
 ipc.on('status-update', function(data) {
