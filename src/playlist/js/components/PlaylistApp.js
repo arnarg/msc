@@ -10,7 +10,7 @@ function getPlaylistState() {
 var PlaylistApp = React.createClass({
 
 	getInitialState: function() {
-		return getMscState();
+		return getPlaylistState();
 	},
 
 	componentDidMount: function() {
@@ -22,13 +22,28 @@ var PlaylistApp = React.createClass({
 	},
 
 	render: function() {
+		var playlist = [];
+
+		this.state.playlist.forEach(function(item, i) {
+			console.log(item);
+			playlist.push(
+				<li key={i}>{item.artist} - {item.title} ({item.album})</li>
+			);
+		});
+
 		return (
-			<div>Playlist</div>
+			<div>
+				<ol>
+					{playlist}
+				</ol>
+			</div>
 		);
 	},
 
 	_onChange: function() {
-		this.setState(getMscState());
+		this.setState(getPlaylistState());
 	}
 
 });
+
+module.exports = PlaylistApp;

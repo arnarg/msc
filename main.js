@@ -170,20 +170,24 @@ function parsePlaylist(msg) {
 	// song but I haven't found a way to
 	// split after the regex
 	// TODO: fix
-	var songs = msg.split(/Id: \d{1,3}\n/);
+	var songs = msg.split(/Id: \d+\n/);
 	var playlist = [];
 
 	songs.forEach(function(song) {
-		var songInfo = /file: (.*)\n(?:.*\n)Artist: (.*)\n(?:.*\n){2}Title: (.*)\nAlbum: (.*)\n/g.exec(song);
+		var lines = song.split('\n');
+		var obj = {};
 
-		if (songInfo !== null) {
-			playlist.push({
-				File: songInfo[1],
-				Artist: songInfo[2],
-				Title: songInfo[3],
-				Album: songInfo[4]
-			});
-		}
+		lines.forEach(function(line) {
+			var capture = /^(file|artist|album|genre|title|time): (.*)$/i.exec(line);
+
+			if (capture && capture[1]) {
+				obj[capture[1].toLowerCase()] = capture[2];
+			}
+		});
+		// The last index in the lines array will be
+		// an empty string and we don't want that in
+		// out playlist
+		if (obj.hasOwnProperty('file')) playlist.push(obj);
 	});
 
 	return playlist;
