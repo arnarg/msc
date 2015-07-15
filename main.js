@@ -9,6 +9,7 @@ var cmd = mpd.cmd;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
+var playlistWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -31,11 +32,19 @@ app.on('ready', function() {
 		'auto-hide-menu-bar': true
 	});
 
+	playlistWindow = new BrowserWindow({
+		width: 650,
+		height: 500,
+		'auto-hide-menu-bar': true
+	});
+
 	// and load the index.html of the app.
 	mainWindow.loadUrl('file://' + __dirname + '/player/index.html');
+	playlistWindow.loadUrl('file://' + __dirname + '/playlist/index.html');
 
 	// Open the devtools.
 	//mainWindow.openDevTools();
+	playlistWindow.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function() {
@@ -90,7 +99,11 @@ function connect(event) {
 		client.on('ready', function() {
 			event.sender.send('connection-success');
 			updateStatus();
-			client.on('system-player', updateStatus);
+			updatePlaylist();
+			client.on('system-player', function() {
+				updateStatus();
+				updatePlaylist();
+			});
 		});
 		client.on('end', function() {
 			event.sender.send('connection-fail');
@@ -132,6 +145,14 @@ function updateStatus() {
 	});
 }
 
+function updatePlaylist() {
+	client.sendCommand(cmd('playlistinfo', []), function(err, res) {
+		var playlist = parsePlaylist(res);
+
+		playlistWindow.webContents.send('playlist-update', playlist);
+	});
+}
+
 function parseMsg(msg) {
 	var lines = msg.split('\n');
 	var ret = {};
@@ -142,6 +163,30 @@ function parseMsg(msg) {
 	});
 
 	return ret;
+}
+
+function parsePlaylist(msg) {
+	// This removes the Id line from each
+	// song but I haven't found a way to
+	// split after the regex
+	// TODO: fix
+	var songs = msg.split(/Id: \d{1,3}\n/);
+	var playlist = [];
+
+	songs.forEach(function(song) {
+		var songInfo = /file: (.*)\n(?:.*\n)Artist: (.*)\n(?:.*\n){2}Title: (.*)\nAlbum: (.*)\n/g.exec(song);
+
+		if (songInfo !== null) {
+			playlist.push({
+				File: songInfo[1],
+				Artist: songInfo[2],
+				Title: songInfo[3],
+				Album: songInfo[4]
+			});
+		}
+	});
+
+	return playlist;
 }
 
 ipc.on('connect', connect);
