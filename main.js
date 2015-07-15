@@ -179,15 +179,24 @@ function parsePlaylist(msg) {
 
 		lines.forEach(function(line) {
 			var capture = /^(file|artist|album|genre|title|time): (.*)$/i.exec(line);
-
+			// Check if a match was found
 			if (capture && capture[1]) {
 				obj[capture[1].toLowerCase()] = capture[2];
 			}
 		});
 		// The last index in the lines array will be
 		// an empty string and we don't want that in
-		// out playlist
-		if (obj.hasOwnProperty('file')) playlist.push(obj);
+		// our playlist
+		if (obj.hasOwnProperty('time')) {
+			// Converting time from seconds to minutes:seconds
+			var seconds = parseInt(obj.time);
+			var h = Math.floor(seconds / 60);
+			var s = seconds % 60;
+			// Adding 0 padding because 03:05 looks nicer than 3:5
+			obj.time = (h < 10 ? '0' : '') + h + ':' + (s < 10 ? '0' : '') + s;
+
+			playlist.push(obj);
+		}
 	});
 
 	return playlist;

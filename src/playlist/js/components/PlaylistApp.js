@@ -27,7 +27,7 @@ var PlaylistApp = React.createClass({
 		this.state.playlist.forEach(function(item, i) {
 			console.log(item);
 			playlist.push(
-				<li key={i}>{item.artist} - {item.title} ({item.album})</li>
+				<li key={i}>{item.artist} - {item.title} ({item.album}) - {item.time}</li>
 			);
 		});
 
