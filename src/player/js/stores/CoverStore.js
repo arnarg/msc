@@ -44,7 +44,8 @@ var CoverStore = assign({}, EventEmitter.prototype, {
 		switch(payload.actionType) {
 			case Constants.COVER_UPDATE:
 				var mpdStatus = MpdStore.getStatus();
-				fetchCoverArt(mpdStatus.Artist, mpdStatus.Album,
+				console.log(mpdStatus);
+				fetchCoverArt(mpdStatus.artist, mpdStatus.album,
 					function(err, res) {
 						if (!err) {
 							cover = (res !== 'No image was found' ? res : 'none');

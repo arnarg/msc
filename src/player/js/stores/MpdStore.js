@@ -29,11 +29,11 @@ ipc.on('connection-fail', function() {
 });
 
 ipc.on('status-update', function(data) {
-	var oldAlbum = status.Album;
+	var oldAlbum = status.album;
 	status = data;
 	MpdStore.emitChange();
 
-	if (status.Album !== oldAlbum) MscActions.updateCover();
+	if (status.album !== oldAlbum) MscActions.updateCover();
 });
 
 var MpdStore = assign({}, EventEmitter.prototype, {

@@ -44,8 +44,8 @@ app.on('ready', function() {
 	playlistWindow.loadUrl('file://' + __dirname + '/playlist/index.html');
 
 	// Open the devtools.
-	mainWindow.openDevTools();
-	playlistWindow.openDevTools();
+	//mainWindow.openDevTools();
+	//playlistWindow.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function() {
@@ -121,7 +121,7 @@ function updateStatus() {
 
 		mainWindow.webContents.send('status-update', status);
 
-		if (status.State === 'play' && (!timeout || timeout._called)) {
+		if (playing && (!timeout || timeout._called)) {
 			timeout = setTimeout(updateStatus, 500);
 		}
 	});

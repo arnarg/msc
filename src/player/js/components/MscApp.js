@@ -28,7 +28,6 @@ var MscApp = React.createClass({
 	},
 
 	render: function() {
-		console.log(this.state.status);
 		var state = this.state.status.state;
 		var overlay = {
 			Artist: this.state.status.artist,
