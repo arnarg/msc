@@ -5,6 +5,7 @@ var path = require('path');
 var ipc = require('ipc');
 var mpd = require('mpd');
 var cmd = mpd.cmd;
+var mpdparser = require('./mpdparser');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -43,7 +44,7 @@ app.on('ready', function() {
 	playlistWindow.loadUrl('file://' + __dirname + '/playlist/index.html');
 
 	// Open the devtools.
-	//mainWindow.openDevTools();
+	mainWindow.openDevTools();
 	playlistWindow.openDevTools();
 
 	// Emitted when the window is closed.
@@ -114,28 +115,9 @@ function connect(event) {
 
 function updateStatus() {
 	client.sendCommands(['status', 'currentsong'], function(err, res) {
-		var resObj = parseMsg(res);
-		var Time;
+		var status = mpdparser.parseStatus(res);
 
-		if (resObj.state !== 'stop')
-			Time = /([0-9]+):([0-9]+)/i.exec(resObj.time);
-
-		var Elapsed = (Time ? Time[1] : 1);
-		var Duration = (Time ? Time[2] : 1);
-
-		playing = resObj.state === 'play';
-
-		var status = {
-			Volume:   resObj.volume,
-			State:    resObj.state,
-			Artist:   resObj.Artist,
-			Album:    resObj.Album,
-			Title:    resObj.Title,
-			Elapsed:  parseInt(Elapsed),
-			Duration: parseInt(Duration),
-			Repeat:   parseInt(resObj.repeat),
-			Random:   parseInt(resObj.random)
-		};
+		playing = status.state === 'play';
 
 		mainWindow.webContents.send('status-update', status);
 
@@ -147,59 +129,10 @@ function updateStatus() {
 
 function updatePlaylist() {
 	client.sendCommand(cmd('playlistinfo', []), function(err, res) {
-		var playlist = parsePlaylist(res);
+		var playlist = mpdparser.parsePlaylist(res);
 
 		playlistWindow.webContents.send('playlist-update', playlist);
 	});
-}
-
-function parseMsg(msg) {
-	var lines = msg.split('\n');
-	var ret = {};
-
-	lines.forEach(function(line) {
-		var capture = /([A-Za-z_]+): (.+)/i.exec(line);
-		if (capture && capture[1]) ret[capture[1]] = capture[2];
-	});
-
-	return ret;
-}
-
-function parsePlaylist(msg) {
-	// This removes the Id line from each
-	// song but I haven't found a way to
-	// split after the regex
-	// TODO: fix
-	var songs = msg.split(/Id: \d+\n/);
-	var playlist = [];
-
-	songs.forEach(function(song) {
-		var lines = song.split('\n');
-		var obj = {};
-
-		lines.forEach(function(line) {
-			var capture = /^(file|artist|album|genre|title|time): (.*)$/i.exec(line);
-			// Check if a match was found
-			if (capture && capture[1]) {
-				obj[capture[1].toLowerCase()] = capture[2];
-			}
-		});
-		// The last index in the lines array will be
-		// an empty string and we don't want that in
-		// our playlist
-		if (obj.hasOwnProperty('time')) {
-			// Converting time from seconds to minutes:seconds
-			var seconds = parseInt(obj.time);
-			var h = Math.floor(seconds / 60);
-			var s = seconds % 60;
-			// Adding 0 padding because 03:05 looks nicer than 3:5
-			obj.time = (h < 10 ? '0' : '') + h + ':' + (s < 10 ? '0' : '') + s;
-
-			playlist.push(obj);
-		}
-	});
-
-	return playlist;
 }
 
 ipc.on('connect', connect);

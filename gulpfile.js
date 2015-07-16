@@ -61,6 +61,7 @@ gulp.task('scripts', ['jshint'], function() {
 gulp.task('files', function() {
 	return gulp.src([
 		'./src/{player,playlist}/index.html',
+		'./modules/*.js',
 		'main.js',
 		'package.json'
 			])

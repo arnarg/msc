@@ -28,16 +28,17 @@ var MscApp = React.createClass({
 	},
 
 	render: function() {
-		var state = this.state.status.State;
+		console.log(this.state.status);
+		var state = this.state.status.state;
 		var overlay = {
-			Artist: this.state.status.Artist,
-			Title:  this.state.status.Title,
-			Repeat: this.state.status.Repeat,
-			Random: this.state.status.Random
+			Artist: this.state.status.artist,
+			Title:  this.state.status.title,
+			Repeat: this.state.status.repeat,
+			Random: this.state.status.random
 		};
 		var progress = {
-			Time: this.state.status.Elapsed,
-			Duration: this.state.status.Duration
+			Elapsed: this.state.status.elapsed,
+			Duration: this.state.status.time
 		};
 
 		return (

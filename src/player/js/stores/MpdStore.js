@@ -9,15 +9,15 @@ var ipc           = require('ipc');
 var CHANGE_EVENT = 'change';
 
 var status = {
-	Volume:  100,
-	State:   'stop',
-	Artist:  '',
-	Album:   '',
-	Title:   '',
-	Elapsed: '',
-	Duration:'',
-	Random:  0,
-	Repeat:  0
+	volume:  100,
+	state:   'stop',
+	artist:  '',
+	album:   '',
+	title:   '',
+	elapsed: 1,
+	time:    1,
+	random:  0,
+	repeat:  0
 };
 
 ipc.on('connection-success', function() {
@@ -75,7 +75,7 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 			case Constants.MPD_SEEK:
 				var percent = payload.data.percent;
 				if (percent <= 0.015) percent = 0;
-				ipc.send('seek', percent * status.Duration);
+				ipc.send('seek', percent * status.time);
 				break;
 			case Constants.MPD_REPEAT:
 				ipc.send('repeat', (status.Repeat ? '0' : '1'));
