@@ -1,1 +1,47 @@
 @import 'variables';
+
+body {
+	background-color: @dark-grey-color;
+	color: @white-color;
+	font-family: sans-serif;
+	margin: 0;
+	-webkit-user-select: none;
+
+	ul.playlist {
+		display: table;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		font-weight: bold;
+
+		li {
+			display: table-row;
+
+			div {
+				display: table-cell;
+				padding: 5px;
+				border-top: 1px solid lighten(@dark-grey-color, 5%);
+				border-bottom: 1px solid darken(@dark-grey-color, 10%);
+
+				&.playBtn {
+					width: 1.5em;
+					text-align: center;
+
+					& i {
+						visibility: hidden;
+					}
+				}
+			}
+
+			&:hover {
+				background-color: lighten(@dark-grey-color, 5%);
+				cursor: default;
+
+				& div.playBtn i {
+					visibility: visible;
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,6 @@
 var React    = require('react');
 var MpdStore = require('../stores/MpdStore');
+var Playlist = require('./Playlist');
 
 function getPlaylistState() {
 	return {
@@ -22,20 +23,9 @@ var PlaylistApp = React.createClass({
 	},
 
 	render: function() {
-		var playlist = [];
-
-		this.state.playlist.forEach(function(item, i) {
-			console.log(item);
-			playlist.push(
-				<li key={i}>{item.artist} - {item.title} ({item.album}) - {item.time}</li>
-			);
-		});
-
 		return (
 			<div>
-				<ol>
-					{playlist}
-				</ol>
+				<Playlist list={this.state.playlist} />
 			</div>
 		);
 	},
