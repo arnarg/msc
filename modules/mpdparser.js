@@ -47,11 +47,10 @@ var mpdparser = {
 	},
 
 	parsePlaylist: function(str) {
-		// This removes the Id line from each
-		// song but I haven't found a way to
-		// split after the regex
-		// TODO: fix
-		var songs = str.split(/Id: \d+\n/);
+		// Each song begins with a file property
+		// so splitting the string at a new line
+		// followed by file: seperates the songs
+		var songs = str.split(/\n(?=file:)/);
 		var playlist = [];
 
 		songs.forEach(function(song) {
