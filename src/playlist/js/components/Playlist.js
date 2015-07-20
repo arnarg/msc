@@ -1,23 +1,17 @@
 var React = require('react');
+var PlaylistItem = require('./PlaylistItem');
 
 var Playlist = React.createClass({
 
 	render: function() {
+		var list = this.props.list;
 		var playlist = [];
 
-		this.props.list.forEach(function(song, i) {
+		for (var i = 0; i < list.length; ++i) {
 			playlist.push(
-				<li key={i}>
-					<div className='playBtn'><i className='fa fa-play'></i></div>
-					<div className='info'>
-						<div className='artist'>{song.artist}</div>
-						<div className='title'>{song.title}</div>
-					</div>
-					<div className='rmBtn'><i className='fa fa-minus-circle'></i></div>
-					<div className='time'>{song.time}</div>
-				</li>
+				<PlaylistItem song={list[i]} key={i} />
 			);
-		});
+		}
 
 		return (
 			<ul className='playlist'>
