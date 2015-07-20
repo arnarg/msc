@@ -1,5 +1,6 @@
 var nconf = require('nconf');
 var path = require('path');
+var app = require('app');
 
 module.exports = function(ipc) {
 	nconf.use('file', {file: path.join(app.getPath('userData'), 'config.json')});
