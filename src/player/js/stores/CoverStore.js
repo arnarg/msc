@@ -1,4 +1,4 @@
-var covers        = require('album-cover')('a8515cff0a4856bbb5c5eae24fdc411b');
+var covers        = require('music-cover')('a8515cff0a4856bbb5c5eae24fdc411b');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var Constants     = require('../constants/Constants');
 var EventEmitter  = require('events').EventEmitter;
