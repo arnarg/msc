@@ -8,28 +8,58 @@ body {
 	-webkit-user-select: none;
 
 	ul.playlist {
-		display: table;
 		width: 100%;
 		padding: 0;
 		margin: 0;
 		list-style: none;
 		font-weight: bold;
+		border-collapse: collapse;
 
 		li {
-			display: table-row;
+			border-top: 1px solid lighten(@dark-grey-color, 5%);
+			border-bottom: 1px solid darken(@dark-grey-color, 10%);
+			height: 2.5em;
 
-			div {
-				display: table-cell;
-				padding: 5px;
-				border-top: 1px solid lighten(@dark-grey-color, 5%);
-				border-bottom: 1px solid darken(@dark-grey-color, 10%);
+			& > div {
+				display: inline-block;
 
 				&.playBtn {
+					float: left;
+					font-size: 1.5em;
 					width: 1.5em;
 					text-align: center;
+					color: darken(@white-color, 30%);
 
 					& i {
 						visibility: hidden;
+						line-height: 1.5em;
+					}
+				}
+
+				&.rmBtn {
+					float: right;
+					width: 2em;
+					text-align: center;
+					color: darken(@white-color, 30%);
+
+					i {
+						visibility: hidden;
+						line-height: 2.5em;
+					}
+				}
+
+				&.time {
+					float: right;
+					line-height: 2.5em;
+				}
+
+				&.info {
+					& .artist {
+						color: @red-color;
+					}
+
+					& .title {
+						font-size: 0.8em;
 					}
 				}
 			}
@@ -38,8 +68,9 @@ body {
 				background-color: lighten(@dark-grey-color, 5%);
 				cursor: default;
 
-				& div.playBtn i {
+				& .playBtn i, .rmBtn i {
 					visibility: visible;
+					cursor: pointer;
 				}
 			}
 		}
