@@ -1,6 +1,7 @@
 var React    = require('react');
 var MpdStore = require('../stores/MpdStore');
 var Playlist = require('./Playlist');
+var Tabs     = require('./Tabs');
 
 function getPlaylistState() {
 	return {
@@ -26,8 +27,11 @@ var PlaylistApp = React.createClass({
 		var playlist = this.state.playlist;
 
 		return (
-			<div>
-				<Playlist list={playlist} />
+			<div className='flex-container'>
+				<Tabs />
+				<div className='main'>
+					<Playlist list={playlist} />
+				</div>
 			</div>
 		);
 	},

@@ -83,7 +83,8 @@ body {
     			.noselect;
     			height: @control-height;
     			background: -webkit-gradient(linear, left top, left bottom,
-    				color-stop(0%,#dddddd), color-stop(100%,#c6c6c6));
+    				color-stop(0%, @control-gradient-start),
+                    color-stop(100%, @control-gradient-end));
     			color: #444444;
     			text-align: center;
                 transform-style: preserve-3d;

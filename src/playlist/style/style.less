@@ -1,5 +1,9 @@
 @import 'variables';
 
+html, body {
+	height: 100%;
+}
+
 body {
 	background-color: @dark-grey-color;
 	color: @white-color;
@@ -7,70 +11,91 @@ body {
 	margin: 0;
 	-webkit-user-select: none;
 
-	ul.playlist {
-		width: 100%;
-		padding: 0;
-		margin: 0;
-		list-style: none;
-		font-weight: bold;
-		border-collapse: collapse;
+	.flex-container {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
 
-		li {
-			border-top: 1px solid lighten(@dark-grey-color, 5%);
-			border-bottom: 1px solid darken(@dark-grey-color, 10%);
-			height: 2.5em;
+		& .tabBar {
+			height: @control-height;
+			background: -webkit-gradient(linear, left top, left bottom,
+				color-stop(0%, @control-gradient-start),
+				color-stop(100%, @control-gradient-end));
+			width: 100%;
+		}
 
-			& > div {
-				display: inline-block;
+		& .main {
+			flex-grow: 1;
+			height: 100%;
+			overflow-y: auto;
 
-				&.playBtn {
-					float: left;
-					font-size: 1.5em;
-					width: 1.5em;
-					text-align: center;
-					color: darken(@white-color, 30%);
+			& ul.playlist {
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				font-weight: bold;
+				border-collapse: collapse;
 
-					& i {
-						visibility: hidden;
-						line-height: 1.5em;
+				li {
+					border-top: 1px solid lighten(@dark-grey-color, 5%);
+					border-bottom: 1px solid darken(@dark-grey-color, 10%);
+					height: 2.5em;
+
+					& > div {
+						display: inline-block;
+
+						&.playBtn {
+							float: left;
+							font-size: 1.5em;
+							width: 1.5em;
+							text-align: center;
+							color: darken(@white-color, 30%);
+
+							& i {
+								visibility: hidden;
+								line-height: 1.5em;
+							}
+						}
+
+						&.rmBtn {
+							float: right;
+							width: 2em;
+							text-align: center;
+							color: darken(@white-color, 30%);
+
+							i {
+								visibility: hidden;
+								line-height: 2.5em;
+							}
+						}
+
+						&.time {
+							float: right;
+							line-height: 2.5em;
+						}
+
+						&.info {
+							& .artist {
+								color: @red-color;
+							}
+
+							& .title {
+								font-size: 0.8em;
+							}
+						}
 					}
-				}
 
-				&.rmBtn {
-					float: right;
-					width: 2em;
-					text-align: center;
-					color: darken(@white-color, 30%);
+					&:hover {
+						background-color: lighten(@dark-grey-color, 5%);
+						cursor: default;
 
-					i {
-						visibility: hidden;
-						line-height: 2.5em;
+						& .playBtn i, .rmBtn i {
+							visibility: visible;
+							cursor: pointer;
+						}
 					}
-				}
-
-				&.time {
-					float: right;
-					line-height: 2.5em;
-				}
-
-				&.info {
-					& .artist {
-						color: @red-color;
-					}
-
-					& .title {
-						font-size: 0.8em;
-					}
-				}
-			}
-
-			&:hover {
-				background-color: lighten(@dark-grey-color, 5%);
-				cursor: default;
-
-				& .playBtn i, .rmBtn i {
-					visibility: visible;
-					cursor: pointer;
 				}
 			}
 		}
