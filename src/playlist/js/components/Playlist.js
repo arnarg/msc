@@ -22,6 +22,7 @@ var Playlist = React.createClass({
 
 	render: function() {
 		var list = this.props.list;
+		console.log(list);
 		playlist = [];
 
 		for (var i = 0; i < list.length; ++i) {
