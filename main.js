@@ -137,3 +137,9 @@ ipc.on('repeat', function(event, arg) {
 ipc.on('play-song', function(event, arg) {
 	client.sendCommand(cmd('playid ' + arg, []));
 });
+
+ipc.on('remove-song', function(event, arg) {
+	client.sendCommand(cmd('deleteid ' + arg, []), function(err, res) {
+		if (!err) updatePlaylist();
+	});
+});

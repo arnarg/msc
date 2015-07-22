@@ -37,6 +37,9 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 			case Constants.MPD_PLAY_SONG:
 				ipc.send('play-song', payload.data.id);
 				break;
+			case Constants.MPD_REMOVE_SONG:
+				ipc.send('remove-song', payload.data.id);
+				break;
 		}
 	})
 

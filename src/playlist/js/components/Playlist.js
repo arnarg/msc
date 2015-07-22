@@ -11,10 +11,12 @@ var Playlist = React.createClass({
 		// I'm using this hack.
 		// TODO: fix
 		var elem = $(event.target);
+		var songID = elem.closest('li').data('id');
 		// Clicked element is one of the two buttons
-		if (elem.hasClass('fa-play') || elem.hasClass('fa-minus-circle')) {
-			var songID = elem.closest('li').data('id');
+		if (elem.hasClass('fa-play')) {
 			PlaylistActions.playSong({id: songID});
+		} else if (elem.hasClass('fa-minus-circle')) {
+			PlaylistActions.removeSong({id: songID});
 		}
 	},
 
