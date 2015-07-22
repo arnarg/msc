@@ -18,11 +18,31 @@ body {
 		align-items: stretch;
 
 		& .tabBar {
+			display: flex;
+			flex-direction: row;
 			height: @control-height;
 			background: -webkit-gradient(linear, left top, left bottom,
 				color-stop(0%, @control-gradient-start),
 				color-stop(100%, @control-gradient-end));
 			width: 100%;
+			color: @dark-grey-color;
+
+			& .tab {
+				flex-grow: 1;
+				text-align: center;
+
+				& i {
+					line-height: @control-height;
+				}
+
+				&:hover {
+					background-color: rgba(0.8, 0.8, 0.8, 0.08);
+				}
+
+				&.active {
+					background-color: rgba(0.8, 0.8, 0.8, 0.12);
+				}
+			}
 		}
 
 		& .main {
