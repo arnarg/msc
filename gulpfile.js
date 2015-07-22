@@ -15,7 +15,7 @@ gulp.task('package', ['compile', 'install'], function() {
 				packageJson: require('./dest/package.json'),
 				release: './release',
 				cache:   './cache',
-				version: 'v0.27.2',
+				version: 'v0.30.0',
 				packaging: true,
 				platforms: ['darwin-x64', 'linux-x64']
 			}))
@@ -24,7 +24,7 @@ gulp.task('package', ['compile', 'install'], function() {
 
 gulp.task('run', ['compile', 'install'], function() {
 	return gulp.src('dest')
-			.pipe(runElectron([], {}));
+			.pipe(runElectron(['--v=-1'], {}));
 });
 
 gulp.task('install', ['compile'], function() {

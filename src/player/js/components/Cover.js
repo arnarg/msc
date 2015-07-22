@@ -103,12 +103,11 @@ var Cover = React.createClass({
 	},
 
 	_onChange: function() {
-		var self = this;
 		var cover = getCoverState();
 		var img = new Image();
 		img.onload = function() {
-			self.setState(cover);
-		};
+			this.setState(cover);
+		}.bind(this);
 		img.src = cover.cover;
 	}
 

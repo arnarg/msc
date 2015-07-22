@@ -1,4 +1,5 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
+var Constants     = require('../constants/Constants');
 var EventEmitter  = require('events').EventEmitter;
 var assign        = require('object-assign');
 var ipc           = require('ipc');
@@ -8,7 +9,8 @@ var CHANGE_EVENT = 'change';
 var playlist = [];
 
 ipc.on('playlist-update', function(data) {
-	playlist = data;
+	// Deep copy
+	playlist = JSON.parse(JSON.stringify(data)).playlist;
 	MpdStore.emitChange();
 });
 
@@ -32,7 +34,9 @@ var MpdStore = assign({}, EventEmitter.prototype, {
 
 	dispatcherIndex: AppDispatcher.register(function(payload) {
 		switch(payload.actionType) {
-
+			case Constants.MPD_PLAY_SONG:
+				ipc.send('play-song', payload.data.id);
+				break;
 		}
 	})
 

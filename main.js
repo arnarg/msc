@@ -104,7 +104,7 @@ function updatePlaylist() {
 	client.sendCommand(cmd('playlistinfo', []), function(err, res) {
 		var playlist = mpdparser.parsePlaylist(res);
 
-		playlistWindow.webContents.send('playlist-update', playlist);
+		playlistWindow.webContents.send('playlist-update', {playlist: playlist});
 	});
 }
 
@@ -132,4 +132,8 @@ ipc.on('random', function(event, arg) {
 
 ipc.on('repeat', function(event, arg) {
 	client.sendCommand(cmd('repeat ' + arg, []));
+});
+
+ipc.on('play-song', function(event, arg) {
+	client.sendCommand(cmd('playid ' + arg, []));
 });

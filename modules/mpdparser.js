@@ -60,7 +60,8 @@ var mpdparser = {
 				'album',
 				'genre',
 				'title',
-				'time'
+				'time',
+				'id'
 			];
 			var obj = this.parseProps(song, props);
 

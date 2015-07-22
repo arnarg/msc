@@ -23,9 +23,11 @@ var PlaylistApp = React.createClass({
 	},
 
 	render: function() {
+		var playlist = this.state.playlist;
+
 		return (
 			<div>
-				<Playlist list={this.state.playlist} />
+				<Playlist list={playlist} />
 			</div>
 		);
 	},

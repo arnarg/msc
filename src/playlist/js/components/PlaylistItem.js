@@ -2,17 +2,13 @@ var React = require('react');
 
 var PlaylistItem = React.createClass({
 
-	_play: function() {
-		console.log(this.props.song);
-	},
-
 	render: function() {
 		var song = this.props.song;
 
 		return (
-			<li onClick={this._play}>
+			<li data-id={song.id}>
 				<div className='playBtn'>
-					<i className='fa fa-play' onClick={this._play}>
+					<i className='fa fa-play'>
 					</i>
 				</div>
 				<div className='info'>
