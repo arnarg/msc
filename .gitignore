@@ -4,3 +4,4 @@ cache/
 dest/
 release/
 src/*/*.js
+typings/
