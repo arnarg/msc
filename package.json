@@ -13,6 +13,9 @@
   "license": "MIT",
   "devDependencies": {
     "electron-prebuilt": "^0.27.2",
+    "grunt": "^0.4.5",
+    "grunt-ts": "^4.2.0",
+    "grunt-typescript": "^0.6.2",
     "gulp": "^3.9.0",
     "gulp-electron": "0.0.5",
     "gulp-install": "^0.4.0",
