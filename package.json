@@ -18,10 +18,14 @@
     "gulp-install": "^0.4.0",
     "gulp-jshint": "^1.11.0",
     "gulp-less": "^3.0.3",
+    "gulp-load-plugins": "^0.10.0",
     "gulp-react": "^3.0.1",
-    "gulp-run-electron": "^1.1.1"
+    "gulp-run-electron": "^1.1.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-typescript": "^2.8.0"
   },
   "dependencies": {
+    "alt": "^0.17.1",
     "font-awesome": "^4.3.0",
     "jquery": "^2.1.4",
     "keymirror": "^0.1.1",

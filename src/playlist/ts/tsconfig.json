@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": false,
+        "noEmit": true
+    },
+    "filesGlob": [
+        "**/*.ts",
+        "**/*.tsx"
+    ],
+    "files": [
+        "actions/AbstractActions.ts",
+        "actions/PlaylistActions.ts",
+        "alt.ts",
+        "stores/AbstractStoreModel.ts",
+        "stores/MpdStore.ts",
+        "typings/interfaces.ts",
+        "typings/playlist.d.ts"
+    ]
+}

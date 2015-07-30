@@ -2,12 +2,15 @@
 node_modules/
 
 # Caches
-cache/
-.tscache/
+/cache
+/.tscache
 
 # Compiled app
-dest/
-release/
+/dest
+/release
 
 # Typing files installed with tsd
-typings/
+/typings
+
+# Auto-compiled js files in the src
+/src/*/ts/**/*.js
