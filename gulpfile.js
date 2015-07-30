@@ -15,7 +15,7 @@ gulp.task('install', ['compile'], getTask('install'));
 gulp.task('less', getTask('less'));
 gulp.task('files', getTask('files'));
 gulp.task('imgs', getTask('imgs'));
-//gulp.task('compile', getTask('compile'));
+gulp.task('compile', getTask('compile'));
 
 gulp.task('jshint', function() {
 	return gulp.src([
@@ -29,12 +29,12 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('scripts', ['jshint'], function() {
-	return gulp.src('./src/*/js/**/*.js')
+	return gulp.src('./src/player/js/**/*.js')
 			.pipe(plugins.react())
 			.on('error', console.log.bind(console))
-			.pipe(gulp.dest('dest/'));
+			.pipe(gulp.dest('dest/player/js'));
 });
 
-gulp.task('compile', ['scripts', 'files', 'imgs', 'less']);
+gulp.task('compile2', ['compile', 'scripts', 'files', 'imgs', 'less']);
 
-gulp.task('default', ['jshint', 'compile', 'install', 'run']);
+gulp.task('default', ['jshint', 'compile2', 'install', 'run']);

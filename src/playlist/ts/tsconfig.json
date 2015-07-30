@@ -4,7 +4,8 @@
         "target": "es5",
         "sourceMap": false,
         "declaration": false,
-        "noEmit": true
+        "noEmit": true,
+        "jsx": "react"
     },
     "filesGlob": [
         "**/*.ts",
@@ -17,6 +18,9 @@
         "stores/AbstractStoreModel.ts",
         "stores/MpdStore.ts",
         "typings/interfaces.ts",
-        "typings/playlist.d.ts"
+        "typings/playlist.d.ts",
+        "typings/playlistapp.d.ts",
+        "app.tsx",
+        "components/PlaylistApp.tsx"
     ]
 }
