@@ -1,4 +1,13 @@
+# Node modules
 node_modules/
+
+# Caches
 cache/
+.tscache/
+
+# Compiled app
 dest/
 release/
+
+# Typing files installed with tsd
+typings/
