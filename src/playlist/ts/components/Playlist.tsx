@@ -26,10 +26,17 @@ class Playlist extends React.Component<Props, any> {
 		});
 
 		return (
-			<ul className='playlist' onClick={this._onClick}>
+			<ul className='playlist'>
 				{playlist}
 			</ul>
 		);
+	}
+
+	componentDidMount() {
+		// When putting onClick on the ul element
+		// clicking would not work after switching back
+		// to the Playlist tab, this fixes it.
+		$('.playlist').click(this._onClick);
 	}
 
 	_onClick(event) {
