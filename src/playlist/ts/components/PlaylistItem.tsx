@@ -10,7 +10,7 @@ class PlaylistItem extends React.Component<Props, any> {
 		var song = this.props.song;
 		return (
 			<li data-id={song.id}>
-				<div className='playBtn'>
+				<div className='leftBtn'>
 					<i className='fa fa-play'>
 					</i>
 				</div>
@@ -18,7 +18,7 @@ class PlaylistItem extends React.Component<Props, any> {
 					<div className='artist'>{song.artist}</div>
 					<div className='title'>{song.title}</div>
 				</div>
-				<div className='rmBtn'>
+				<div className='rightBtn'>
 					<i className='fa fa-minus-circle'>
 					</i>
 				</div>

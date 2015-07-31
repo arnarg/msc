@@ -26,7 +26,7 @@ class Playlist extends React.Component<Props, any> {
 		});
 
 		return (
-			<ul className='playlist'>
+			<ul className='list playlist'>
 				{playlist}
 			</ul>
 		);

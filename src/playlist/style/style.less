@@ -55,7 +55,7 @@ body {
 			height: 100%;
 			overflow-y: auto;
 
-			& ul.playlist {
+			& ul.list {
 				width: 100%;
 				padding: 0;
 				margin: 0;
@@ -71,7 +71,7 @@ body {
 					& > div {
 						display: inline-block;
 
-						&.playBtn {
+						&.leftBtn {
 							float: left;
 							font-size: 1.5em;
 							width: 1.5em;
@@ -84,7 +84,7 @@ body {
 							}
 						}
 
-						&.rmBtn {
+						&.rightBtn {
 							float: right;
 							width: 2em;
 							text-align: center;
@@ -116,7 +116,7 @@ body {
 						background-color: lighten(@dark-grey-color, 5%);
 						cursor: default;
 
-						& .playBtn i, .rmBtn i {
+						& .leftBtn i, .rightBtn i {
 							visibility: visible;
 							cursor: pointer;
 						}
