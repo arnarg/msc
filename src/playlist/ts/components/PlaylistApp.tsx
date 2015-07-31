@@ -1,13 +1,19 @@
 import * as React from 'react';
 import MpdStore = require('../stores/MpdStore');
+import TabStore = require('../stores/TabStore');
+import MpdActions = require('../actions/MpdActions');
+import Tabs = require('./Tabs');
+import Content = require('./Content');
 
 interface State {
-	playlist: listItem[];
+	playlist: IListItem[];
+	tabData: ITabStoreState;
 }
 
 function getPlaylistState(): State {
 	return {
-		playlist: MpdStore.getState().playlist
+		playlist: MpdStore.getState().playlist,
+		tabData: TabStore.getState()
 	};
 }
 
@@ -23,24 +29,24 @@ class PlaylistApp extends React.Component<any, State> {
 	}
 
 	render() {
-		var title: string = '';
-		if (this.state.playlist.length > 0) {
-			title = this.state.playlist[0].title;
-		}
-
 		return (
 			<div className="flex-container">
-				{title}
+				<Tabs active={this.state.tabData.activeTab}
+				      tabs={this.state.tabData.tabs} />
+				<Content activeTab={this.state.tabData.activeTab}
+				         playlist={this.state.playlist} />
 			</div>
 			);
 	}
 
 	componentDidMount() {
 		MpdStore.listen(this._onChange);
+		TabStore.listen(this._onChange);
 	}
 
 	componentWillUnmount() {
 		MpdStore.unlisten(this._onChange);
+		TabStore.unlisten(this._onChange);
 	}
 
 	_onChange() {

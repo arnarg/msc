@@ -1,10 +1,10 @@
 var React       = require('react');
 var ipc         = require('ipc');
 var PlaylistApp = require('./ts/components/PlaylistApp');
-var PlaylistActions = require('./ts/actions/PlaylistActions');
+var MpdActions = require('./ts/actions/MpdActions');
 
 ipc.on('playlist-update', function(data) {
-	PlaylistActions.updatePlaylist(data.playlist);
+	MpdActions.updatePlaylist(data.playlist);
 });
 
 React.render(

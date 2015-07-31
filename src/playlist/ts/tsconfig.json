@@ -13,14 +13,19 @@
     ],
     "files": [
         "actions/AbstractActions.ts",
-        "actions/PlaylistActions.ts",
+        "actions/MpdActions.ts",
+        "actions/TabActions.ts",
         "alt.ts",
         "stores/AbstractStoreModel.ts",
         "stores/MpdStore.ts",
+        "stores/TabStore.ts",
         "typings/interfaces.ts",
         "typings/playlist.d.ts",
-        "typings/playlistapp.d.ts",
-        "app.tsx",
-        "components/PlaylistApp.tsx"
+        "components/Content.tsx",
+        "components/Playlist.tsx",
+        "components/PlaylistApp.tsx",
+        "components/PlaylistItem.tsx",
+        "components/Tab.tsx",
+        "components/Tabs.tsx"
     ]
 }

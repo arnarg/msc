@@ -2,38 +2,28 @@
 
 import * as alt from '../alt';
 import * as ipc from 'ipc';
-import PlaylistActions = require('../actions/PlaylistActions');
+import MpdActions = require('../actions/MpdActions');
+import AbstractStoreModel = require('./AbstractStoreModel');
 
-class AbstractStoreModel<S> implements AltJS.StoreModel<S> {
-	bindActions:( ...actions:Array<Object>) => void;
-	bindAction:( ...args:Array<any>) => void;
-	bindListeners:(obj:any)=> void;
-	exportPublicMethods:(config:{[key:string]:(...args:Array<any>) => any}) => any;
-	exportAsync:( source:any) => void;
-	waitFor:any;
-	exportConfig:any;
-	getState:() => S;
-}
-
-class MpdStore extends AbstractStoreModel<MpdStoreState> implements AltJS.StoreModel<MpdStoreState> {
+class MpdStore extends AbstractStoreModel<IMpdStoreState> implements AltJS.StoreModel<IMpdStoreState> {
 	playlist: any[] = [];
 	constructor() {
 		super();
 
-		this.bindActions(PlaylistActions);
+		this.bindActions(MpdActions);
 	}
 
-	onPlaySong(data: songData): void {
+	onPlaySong(data: ISongData): void {
 		ipc.send('play-song', data.id);
 	}
 
-	onRemoveSong(data: songData): void {
+	onRemoveSong(data: ISongData): void {
 		ipc.send('remove-song', data.id);
 	}
 
-	onUpdatePlaylist(playlist: listItem[]) {
+	onUpdatePlaylist(playlist: IListItem[]) {
 		this.playlist = playlist;
 	}
 }
 
-export = alt.createStore<MpdStoreState>(MpdStore, 'MpdStore');
+export = alt.createStore<IMpdStoreState>(MpdStore, 'MpdStore');
