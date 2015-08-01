@@ -21,12 +21,16 @@
         "stores/TabStore.ts",
         "typings/interfaces.ts",
         "typings/playlist.d.ts",
+        "utils/MpdUtils.ts",
+        "components/Albums.tsx",
+        "components/Artists.tsx",
         "components/Content.tsx",
         "components/Library.tsx",
         "components/LibraryItem.tsx",
         "components/Playlist.tsx",
         "components/PlaylistApp.tsx",
         "components/PlaylistItem.tsx",
+        "components/Songs.tsx",
         "components/Tab.tsx",
         "components/Tabs.tsx"
     ]

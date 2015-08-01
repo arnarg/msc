@@ -145,13 +145,40 @@ ipc.on('remove-song', function(event, arg) {
 });
 
 ipc.on('get-artists', function(event, arg) {
+	console.log('get artists');
 	client.sendCommand(cmd('list artist', []), function(err, res) {
-		event.sender.send('artists', mpdparser.parseArtists(res));
+		console.log('got artists');
+		event.sender.send('artists', mpdparser.parseList(res));
+	});
+});
+
+ipc.on('get-albums', function(event, arg) {
+	client.sendCommand(cmd('list album artist "' + arg.artist + '"', []), function(err, res) {
+		var albums = {
+			artist: arg.artist,
+			albums: mpdparser.parseList(res)
+		};
+		event.sender.send('albums', albums);
 	});
 });
 
 ipc.on('add-artist', function(event, arg) {
 	client.sendCommand(cmd('findadd artist "' + arg.artist + '"', []), function(err, res) {
+		if (!err) updatePlaylist();
+	});
+});
+
+ipc.on('add-album', function(event, arg) {
+	client.sendCommand(cmd('findadd album "' + arg.album +
+	                       '" artist "' +  arg.artist + '"', []), function(err, res) {
+		if (!err) updatePlaylist();
+	});
+});
+
+ipc.on('add-song', function(event, arg) {
+	client.sendCommand(cmd('findadd title "' + arg.title +
+	                       '" album "' + arg.album +
+	                       '" artist "' + arg.artist + '"', []), function(err, res) {
 		if (!err) updatePlaylist();
 	});
 });

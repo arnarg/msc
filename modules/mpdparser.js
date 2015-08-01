@@ -83,11 +83,11 @@ var mpdparser = {
 		return playlist;
 	},
 
-	parseArtists: function(str) {
+	parseList: function(str) {
 		var artists = str.split('\n');
 		var ret = [];
 		artists.forEach(function(artist) {
-			var result = /Artist: (.*)/.exec(artist);
+			var result = /(?:Artist|Album): (.*)/.exec(artist);
 			if (result && result[1]) {
 				ret.push(result[1]);
 			}

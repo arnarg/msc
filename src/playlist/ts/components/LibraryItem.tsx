@@ -3,6 +3,7 @@ import * as React from 'react';
 interface Props {
 	item: string;
 	key: number;
+	showArrow: boolean;
 }
 
 class LibraryItem extends React.Component<Props, any> {
@@ -18,8 +19,10 @@ class LibraryItem extends React.Component<Props, any> {
 					{item}
 				</div>
 				<div className='rightBtn'>
-					<i className='fa fa-chevron-right'>
-					</i>
+					{this.props.showArrow ?
+						<i className='fa fa-chevron-right'>
+						</i> : ''
+					}
 				</div>
 			</li>
 		);

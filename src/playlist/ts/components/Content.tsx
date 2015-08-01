@@ -7,8 +7,8 @@ interface Props {
 	playlist: IListItem[];
 	library: {
 		artists: string[];
-		albums: string[];
-		songs: string[];
+		albums: IAlbums;
+		songs: ISongs;
 	}
 }
 
