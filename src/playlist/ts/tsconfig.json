@@ -24,6 +24,7 @@
         "utils/MpdUtils.ts",
         "components/Albums.tsx",
         "components/Artists.tsx",
+        "components/BackBtn.tsx",
         "components/Content.tsx",
         "components/Library.tsx",
         "components/LibraryItem.tsx",

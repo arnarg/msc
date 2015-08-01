@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as $ from 'jquery';
 import LibraryItem = require('./LibraryItem');
+import BackBtn = require('./BackBtn');
 import MpdActions = require('../actions/MpdActions');
 
 interface Props {
@@ -15,6 +16,7 @@ class Albums extends React.Component<Props, any> {
 		bind es6 methods so they are referenced properly when executed by jsx
 		*/
 		this._onClick = this._onClick.bind(this);
+		this._onBack = this._onBack.bind(this);
 		super();
 	}
 
@@ -29,6 +31,7 @@ class Albums extends React.Component<Props, any> {
 
 		return (
 			<ul className='list albums'>
+				<BackBtn back={this._onBack} />
 				{albums}
 			</ul>
 		);
@@ -44,6 +47,7 @@ class Albums extends React.Component<Props, any> {
 	_onClick() {
 		var elem = $(event.target);
 		var itemID = elem.closest('li').data('id');
+
 		// Clicked element is one of the two buttons
 		if (elem.hasClass('fa-plus')) {
 			MpdActions.addAlbum(this.props.albums.artist, itemID);
@@ -52,6 +56,11 @@ class Albums extends React.Component<Props, any> {
 			this.props._down();
 			MpdActions.getSongs(this.props.albums.artist, itemID);
 		}
+	}
+
+	_onBack() {
+		this.props._up();
+		MpdActions.getArtists();
 	}
 }
 

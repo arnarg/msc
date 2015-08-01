@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as $ from 'jquery';
 import LibraryItem = require('./LibraryItem');
+import BackBtn = require('./BackBtn');
 import MpdActions = require('../actions/MpdActions');
 
 interface Props {
@@ -28,6 +29,7 @@ class Songs extends React.Component<Props, any> {
 
 		return (
 			<ul className='list songs'>
+				<BackBtn back={this._onBack} />
 				{songs}
 			</ul>
 		);
@@ -49,6 +51,11 @@ class Songs extends React.Component<Props, any> {
 			                   this.props.songs.album,
 			                   itemID);
 		}
+	}
+
+	_onBack() {
+		this.props._up();
+		MpdActions.getAlbums(this.props.songs.artist);
 	}
 }
 
