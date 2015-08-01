@@ -143,3 +143,15 @@ ipc.on('remove-song', function(event, arg) {
 		if (!err) updatePlaylist();
 	});
 });
+
+ipc.on('get-artists', function(event, arg) {
+	client.sendCommand(cmd('list artist', []), function(err, res) {
+		event.sender.send('artists', mpdparser.parseArtists(res));
+	});
+});
+
+ipc.on('add-artist', function(event, arg) {
+	client.sendCommand(cmd('findadd artist "' + arg.artist + '"', []), function(err, res) {
+		if (!err) updatePlaylist();
+	});
+});

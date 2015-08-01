@@ -7,12 +7,23 @@ import Content = require('./Content');
 
 interface State {
 	playlist: IListItem[];
+	library: {
+		artists: string[];
+		albums: string[];
+		songs: string[];
+	}
 	tabData: ITabStoreState;
 }
 
 function getPlaylistState(): State {
+	var MpdState: IMpdStoreState = MpdStore.getState();
 	return {
-		playlist: MpdStore.getState().playlist,
+		playlist: MpdState.playlist,
+		library: {
+			artists: MpdState.artists,
+			albums: MpdState.albums,
+			songs: MpdState.songs
+		},
 		tabData: TabStore.getState()
 	};
 }
@@ -34,7 +45,8 @@ class PlaylistApp extends React.Component<any, State> {
 				<Tabs active={this.state.tabData.activeTab}
 				      tabs={this.state.tabData.tabs} />
 				<Content activeTab={this.state.tabData.activeTab}
-				         playlist={this.state.playlist} />
+				         playlist={this.state.playlist}
+				         library={this.state.library} />
 			</div>
 			);
 	}

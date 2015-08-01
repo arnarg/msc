@@ -6,10 +6,17 @@ import MpdActions = require('../actions/MpdActions');
 import AbstractStoreModel = require('./AbstractStoreModel');
 
 class MpdStore extends AbstractStoreModel<IMpdStoreState> implements AltJS.StoreModel<IMpdStoreState> {
-	playlist: any[] = [];
+	playlist: IListItem[] = [];
+	artists: string[];
+	albums: string[];
+	songs: string[];
 	constructor() {
 		super();
-
+		// Get list of artist in the library
+		setTimeout(() => ipc.send('get-artists'), 500);
+		ipc.on('artists', (artists: string[]) => {
+			this.artists = artists;
+		});
 		this.bindActions(MpdActions);
 	}
 
@@ -23,6 +30,18 @@ class MpdStore extends AbstractStoreModel<IMpdStoreState> implements AltJS.Store
 
 	onUpdatePlaylist(playlist: IListItem[]) {
 		this.playlist = playlist;
+	}
+
+	onGetAlbums(artist: string) {
+
+	}
+
+	onGetSongs(data: {artist: string, album: string}) {
+
+	}
+
+	onAddArtist(artist: string) {
+		ipc.send('add-artist', {artist: artist});
 	}
 }
 

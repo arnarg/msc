@@ -1,5 +1,8 @@
 interface IMpdStoreState {
 	playlist: IListItem[];
+	artists: string[];
+	albums: string[];
+	songs: string[];
 }
 
 interface ITab {

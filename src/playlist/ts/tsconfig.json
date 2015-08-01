@@ -22,6 +22,8 @@
         "typings/interfaces.ts",
         "typings/playlist.d.ts",
         "components/Content.tsx",
+        "components/Library.tsx",
+        "components/LibraryItem.tsx",
         "components/Playlist.tsx",
         "components/PlaylistApp.tsx",
         "components/PlaylistItem.tsx",

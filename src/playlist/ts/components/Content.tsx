@@ -1,9 +1,15 @@
 import * as React from 'react';
 import Playlist = require('./Playlist');
+import Library = require('./Library');
 
 interface Props {
 	activeTab: number;
 	playlist: IListItem[];
+	library: {
+		artists: string[];
+		albums: string[];
+		songs: string[];
+	}
 }
 
 class Content extends React.Component<Props, any> {
@@ -13,7 +19,7 @@ class Content extends React.Component<Props, any> {
 		if (this.props.activeTab === 0) {
 			component = <Playlist playlist={this.props.playlist} />
 		} else if (this.props.activeTab === 1) {
-			component = <div>Library</div>
+			component = <Library library={this.props.library} />
 		}
 
 		return (

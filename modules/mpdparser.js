@@ -81,6 +81,18 @@ var mpdparser = {
 		}.bind(this));
 
 		return playlist;
+	},
+
+	parseArtists: function(str) {
+		var artists = str.split('\n');
+		var ret = [];
+		artists.forEach(function(artist) {
+			var result = /Artist: (.*)/.exec(artist);
+			if (result && result[1]) {
+				ret.push(result[1]);
+			}
+		});
+		return ret;
 	}
 
 };
