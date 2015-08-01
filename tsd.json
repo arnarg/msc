@@ -1,6 +1,6 @@
 {
   "version": "v4",
-  "repo": "borisyankov/DefinitelyTyped",
+  "repo": "arnarg/DefinitelyTyped",
   "ref": "master",
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
@@ -13,6 +13,21 @@
     },
     "es6-promise/es6-promise.d.ts": {
       "commit": "77ec1408257c677f8fd8d6798ebaf6bd87c11b9d"
+    },
+    "github-electron/github-electron-main.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
+    },
+    "github-electron/github-electron.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
+    },
+    "nconf/nconf.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
+    },
+    "node/node.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
     }
   }
 }
