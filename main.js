@@ -145,9 +145,7 @@ ipc.on('remove-song', function(event, arg) {
 });
 
 ipc.on('get-artists', function(event, arg) {
-	console.log('get artists');
 	client.sendCommand(cmd('list artist', []), function(err, res) {
-		console.log('got artists');
 		event.sender.send('artists', mpdparser.parseList(res));
 	});
 });
