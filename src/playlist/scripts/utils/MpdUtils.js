@@ -1,9 +1,10 @@
 /// <reference path="../typings/playlist.d.ts" />
 var ipc = require('ipc');
 var MpdUtils = {
+    id: 0,
     fetchArtists: function () {
         return new Promise(function (resolve, reject) {
-            ipc.on('artists', function (artists) {
+            ipc.once('artists', function (artists) {
                 resolve(artists);
             });
             ipc.send('get-artists');
@@ -12,7 +13,7 @@ var MpdUtils = {
     },
     fetchAlbums: function (artist) {
         return new Promise(function (resolve, reject) {
-            ipc.on('albums', function (albums) {
+            ipc.once('albums', function (albums) {
                 resolve(albums);
             });
             ipc.send('get-albums', { artist: artist });
@@ -21,7 +22,7 @@ var MpdUtils = {
     },
     fetchSongs: function (artist, album) {
         return new Promise(function (resolve, reject) {
-            ipc.on('songs', function (songs) {
+            ipc.once('songs', function (songs) {
                 resolve(songs);
             });
             ipc.send('get-songs', { artist: artist, album: album });
@@ -30,27 +31,45 @@ var MpdUtils = {
     },
     fetchPlaylist: function () {
         return new Promise(function (resolve, reject) {
-            ipc.on('playlist', function (playlist) {
+            ipc.once('playlist', function (playlist) {
                 resolve(playlist);
             });
             ipc.send('get-playlist');
             setTimeout(function () { return reject(); }, 2000);
         });
     },
+    sendCommand: function (cmd) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var command = {
+                id: _this.id++,
+                command: cmd
+            };
+            ipc.once('cmd ' + command.id, function (status) {
+                if (status === 'OK')
+                    resolve();
+                else
+                    reject(status);
+            });
+            ipc.send('mpd-command', command);
+        });
+    },
     playSong: function (id) {
-        ipc.send('play-song', id);
+        return this.sendCommand('playid ' + id);
     },
     removeSong: function (id) {
-        ipc.send('remove-song', id);
+        return this.sendCommand('deleteid ' + id);
     },
     addArtist: function (artist) {
-        ipc.send('add-artist', { artist: artist });
+        return this.sendCommand('findadd artist "' + artist + '"');
     },
     addAlbum: function (artist, album) {
-        ipc.send('add-album', { artist: artist, album: album });
+        return this.sendCommand('findadd album "' + album + '" artist "' + artist + '"');
     },
     addSong: function (artist, album, song) {
-        ipc.send('add-song', { artist: artist, album: album, song: song });
+        return this.sendCommand('findadd title "' + song +
+            '" album "' + album +
+            '" artist "' + artist + '"');
     }
 };
 module.exports = MpdUtils;

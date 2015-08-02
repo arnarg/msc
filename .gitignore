@@ -13,4 +13,5 @@ node_modules/
 /typings
 
 # Auto-compiled js files in the src
-/src/*/ts/**/*.js
+/src/*/scripts/**/*.js
+/src/main/**/*.js

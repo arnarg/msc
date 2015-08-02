@@ -37,6 +37,22 @@ class MpdStore extends AbstractStoreModel<IMpdStoreState> implements AltJS.Store
 	onGetSongs(songs: ISongs) {
 		this.songs = songs;
 	}
+
+	onRemoveSong() {
+		MpdActions.updatePlaylist();
+	}
+
+	onAddArtist() {
+		MpdActions.updatePlaylist();
+	}
+
+	onAddAlbum() {
+		MpdActions.updatePlaylist();
+	}
+
+	onAddSong() {
+		MpdActions.updatePlaylist();
+	}
 }
 
 export = alt.createStore<IMpdStoreState>(MpdStore, 'MpdStore');

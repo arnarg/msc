@@ -13,46 +13,73 @@ var MpdActions = (function (_super) {
         _super.apply(this, arguments);
     }
     MpdActions.prototype.playSong = function (data) {
-        MpdUtils.playSong(data.id);
+        MpdUtils.playSong(data.id).catch(function (e) {
+            console.log(e);
+        });
     };
     MpdActions.prototype.removeSong = function (data) {
-        MpdUtils.removeSong(data.id);
+        var _this = this;
+        MpdUtils.removeSong(data.id).then(function () {
+            _this.dispatch();
+        }).catch(function (e) {
+            console.log(e);
+        });
     };
-    MpdActions.prototype.updatePlaylist = function (playlist) {
-        this.dispatch(playlist);
+    MpdActions.prototype.updatePlaylist = function () {
+        var _this = this;
+        MpdUtils.fetchPlaylist().then(function (playlist) {
+            _this.dispatch(playlist);
+        }).catch(function (e) {
+            console.log(e);
+        });
     };
     MpdActions.prototype.getArtists = function () {
         var _this = this;
         MpdUtils.fetchArtists().then(function (artists) {
             _this.dispatch(artists);
-        }).catch(function () {
-            console.log('error');
+        }).catch(function (e) {
+            console.log(e);
         });
     };
     MpdActions.prototype.getAlbums = function (artist) {
         var _this = this;
         MpdUtils.fetchAlbums(artist).then(function (albums) {
             _this.dispatch(albums);
-        }).catch(function () {
-            console.log('error');
+        }).catch(function (e) {
+            console.log(e);
         });
     };
     MpdActions.prototype.getSongs = function (artist, album) {
         var _this = this;
         MpdUtils.fetchSongs(artist, album).then(function (songs) {
             _this.dispatch(songs);
-        }).catch(function () {
-            console.log('error');
+        }).catch(function (e) {
+            console.log(e);
         });
     };
     MpdActions.prototype.addArtist = function (artist) {
-        MpdUtils.addArtist(artist);
+        var _this = this;
+        MpdUtils.addArtist(artist).then(function () {
+            _this.dispatch();
+        }).catch(function (e) {
+            console.log(e);
+        });
     };
     MpdActions.prototype.addAlbum = function (artist, album) {
-        MpdUtils.addAlbum(artist, album);
+        var _this = this;
+        MpdUtils.addAlbum(artist, album).then(function () {
+            _this.dispatch();
+        }).catch(function (e) {
+            console.log(e);
+        });
     };
     MpdActions.prototype.addSong = function (artist, album, song) {
-        MpdUtils.addSong(artist, album, song);
+        var _this = this;
+        MpdUtils.addSong(artist, album, song).then(function () {
+            _this.dispatch();
+        }).catch(function (e) {
+            console.log(e);
+        });
     };
     return MpdActions;
 })(AbstractActions);

@@ -2,7 +2,7 @@
   "name": "msc",
   "version": "0.1.0",
   "description": "A simple mpd client",
-  "main": "main.js",
+  "main": "main/main.js",
   "scripts": {
     "start": "electron dest/"
   },

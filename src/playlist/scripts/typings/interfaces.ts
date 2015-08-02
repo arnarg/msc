@@ -1,3 +1,5 @@
+/// <reference path="../../../shared/ts/typings/interfaces.d.ts"/>
+
 interface IMpdStoreState {
 	playlist: IListItem[];
 	artists: string[];
@@ -28,15 +30,4 @@ interface IListItem {
 	title: string;
 	time: number;
 	id: number;
-}
-
-interface IAlbums {
-	artist: string;
-	albums: string[];
-}
-
-interface ISongs {
-	artist: string;
-	album: string;
-	songs: string[];
 }

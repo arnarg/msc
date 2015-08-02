@@ -3,9 +3,10 @@
 import * as ipc from 'ipc';
 
 var MpdUtils = {
+	id: 0,
 	fetchArtists() {
-		return new Promise(function(resolve, reject) {
-			ipc.on('artists', (artists: string[]) => {
+		return new Promise((resolve, reject) => {
+			ipc.once('artists', (artists: string[]) => {
 				resolve(artists);
 			});
 			ipc.send('get-artists');
@@ -14,8 +15,8 @@ var MpdUtils = {
 		});
 	},
 	fetchAlbums(artist: string) {
-		return new Promise(function(resolve, reject) {
-			ipc.on('albums', (albums: IAlbums) => {
+		return new Promise((resolve, reject) => {
+			ipc.once('albums', (albums: IAlbums) => {
 				resolve(albums);
 			});
 			ipc.send('get-albums', {artist: artist});
@@ -24,8 +25,8 @@ var MpdUtils = {
 		});
 	},
 	fetchSongs(artist: string, album: string) {
-		return new Promise(function(resolve, reject) {
-			ipc.on('songs', (songs: ISongs) => {
+		return new Promise((resolve, reject) => {
+			ipc.once('songs', (songs: ISongs) => {
 				resolve(songs);
 			});
 			ipc.send('get-songs', {artist: artist, album: album});
@@ -34,8 +35,8 @@ var MpdUtils = {
 		});
 	},
 	fetchPlaylist() {
-		return new Promise(function(resolve, reject) {
-			ipc.on('playlist', (playlist: IListItem[]) => {
+		return new Promise((resolve, reject) => {
+			ipc.once('playlist', (playlist: IListItem[]) => {
 				resolve(playlist);
 			});
 			ipc.send('get-playlist');
@@ -43,20 +44,35 @@ var MpdUtils = {
 			setTimeout(() => reject(), 2000);
 		});
 	},
+	sendCommand(cmd: string) {
+		return new Promise((resolve, reject) => {
+			var command = {
+				id: this.id++,
+				command: cmd
+			};
+			ipc.once('cmd ' + command.id, (status: string) => {
+				if (status === 'OK') resolve();
+				else reject(status);
+			});
+			ipc.send('mpd-command', command);
+		});
+	},
 	playSong(id: number) {
-		ipc.send('play-song', id);
+		return this.sendCommand('playid ' + id);
 	},
 	removeSong(id: number) {
-		ipc.send('remove-song', id);
+		return this.sendCommand('deleteid ' + id);
 	},
 	addArtist(artist: string) {
-		ipc.send('add-artist', {artist: artist});
+		return this.sendCommand('findadd artist "' + artist + '"');
 	},
 	addAlbum(artist: string, album: string) {
-		ipc.send('add-album', {artist: artist, album: album});
+		return this.sendCommand('findadd album "' + album + '" artist "' + artist + '"');
 	},
 	addSong(artist: string, album: string, song: string) {
-		ipc.send('add-song', {artist: artist, album: album, song: song});
+		return this.sendCommand('findadd title "' + song +
+								'" album "' + album +
+								'" artist "' +  artist + '"');
 	}
 }
 

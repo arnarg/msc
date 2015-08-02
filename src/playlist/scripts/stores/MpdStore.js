@@ -36,6 +36,18 @@ var MpdStore = (function (_super) {
     MpdStore.prototype.onGetSongs = function (songs) {
         this.songs = songs;
     };
+    MpdStore.prototype.onRemoveSong = function () {
+        MpdActions.updatePlaylist();
+    };
+    MpdStore.prototype.onAddArtist = function () {
+        MpdActions.updatePlaylist();
+    };
+    MpdStore.prototype.onAddAlbum = function () {
+        MpdActions.updatePlaylist();
+    };
+    MpdStore.prototype.onAddSong = function () {
+        MpdActions.updatePlaylist();
+    };
     return MpdStore;
 })(AbstractStoreModel);
 module.exports = alt.createStore(MpdStore, 'MpdStore');

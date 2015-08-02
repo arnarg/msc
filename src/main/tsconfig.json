@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": false,
+        "noEmit": true
+    },
+    "filesGlob": [
+        "**/*.ts"
+    ],
+    "files": [
+        "Mpd.ts",
+        "Settings.ts",
+        "main.ts",
+        "typings/interfaces.d.ts",
+        "typings/main.d.ts",
+        "typings/mpd.d.ts"
+    ]
+}
