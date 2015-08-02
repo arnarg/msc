@@ -98,6 +98,14 @@ function main(args: string[]) {
 				console.log(err);
 			});
 		});
+
+		ipc.on('get-songs', (e, arg) => {
+			mpd.getSongs(arg.artist, arg.album).then((songs: ISongs) => {
+				e.sender.send('songs', songs);
+			}).catch((err) => {
+				console.log(err);
+			});
+		});
 	});
 }
 

@@ -15,6 +15,7 @@ class Songs extends React.Component<Props, any> {
 		bind es6 methods so they are referenced properly when executed by jsx
 		*/
 		this._onClick = this._onClick.bind(this);
+		this._onBack = this._onBack.bind(this);
 		super();
 	}
 

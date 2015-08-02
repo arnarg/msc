@@ -56,7 +56,7 @@ class Mpd {
 				if (err)
 					reject(err);
 				else
-					resolve(Parser.parseList(res));
+					resolve(Parser.parseList(res, 'Artist'));
 			});
 		});
 	}
@@ -70,7 +70,26 @@ class Mpd {
 					else {
 						var ret: IAlbums = {
 							artist: artist,
-							albums: Parser.parseList(res)
+							albums: Parser.parseList(res, 'Album')
+						};
+						resolve(ret);
+					}
+				});
+		});
+	}
+
+	getSongs(artist: string, album: string): Promise<ISongs> {
+		return new Promise<ISongs>((resolve, reject) => {
+			this.client.sendCommand(
+				mpd.cmd('find album "' + album + '" artist "' + artist +'"', []),
+				(err, res) => {
+					if (err)
+						reject(err);
+					else {
+						var ret: ISongs = {
+							artist: artist,
+							album: album,
+							songs: Parser.parseList(res, 'Title')
 						};
 						resolve(ret);
 					}
@@ -172,13 +191,14 @@ module Parser {
 		return playlist;
 	}
 
-	export function parseList(str: string): string[] {
+	export function parseList(str: string, prop: string): string[] {
+		var regex: RegExp = buildRegex([prop]);
 		var artists: string[] = str.split('\n');
 		var ret: string[] = [];
 		artists.forEach(function(artist) {
-			var result = /(?:Artist|Album): (.*)/.exec(artist);
-			if (result && result[1]) {
-				ret.push(result[1]);
+			var result = regex.exec(artist);
+			if (result && result[2]) {
+				ret.push(result[2]);
 			}
 		});
 		return ret;

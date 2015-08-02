@@ -12,6 +12,7 @@ var Songs = (function (_super) {
     __extends(Songs, _super);
     function Songs() {
         this._onClick = this._onClick.bind(this);
+        this._onBack = this._onBack.bind(this);
         _super.call(this);
     }
     Songs.prototype.render = function () {
