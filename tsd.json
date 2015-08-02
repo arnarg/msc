@@ -28,6 +28,9 @@
     },
     "node/node.d.ts": {
       "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
+    },
+    "github-electron/github-electron-renderer.d.ts": {
+      "commit": "b43c1446fa652891a1c96cff250d6374eb2f8726"
     }
   }
 }
