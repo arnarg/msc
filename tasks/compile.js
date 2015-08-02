@@ -1,6 +1,8 @@
 module.exports = function(gulp, plugins) {
 	return function() {
-		return gulp.src(['./src/*/ts/**/*.ts', './src/*/ts/**/*.tsx'])
+		return gulp.src(['./src/{player,playlist}/scripts/**/*.ts',
+						'./src/{player,playlist}/scripts/**/*.tsx',
+						'./src/main/**/*.ts'])
 				.pipe(plugins.typescript({
 					outDir: 'dest',
 					jsx: 'react',
