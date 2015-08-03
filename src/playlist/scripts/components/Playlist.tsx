@@ -42,12 +42,12 @@ class Playlist extends React.Component<Props, any> {
 
 	_onClick(event) {
 		var elem = $(event.target);
-		var songID = elem.closest('li').data('id');
+		var songID = elem.closest('li').data('id').toString();
 		// Clicked element is one of the two buttons
 		if (elem.hasClass('fa-play')) {
-			MpdActions.playSong({id: songID});
+			MpdActions.playSong({id: parseInt(songID)});
 		} else if (elem.hasClass('fa-minus-circle')) {
-			MpdActions.removeSong({id: songID});
+			MpdActions.removeSong({id: parseInt(songID)});
 		}
 	}
 }

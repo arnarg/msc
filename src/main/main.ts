@@ -77,6 +77,12 @@ function main(args: string[]) {
 			});
 		});
 
+		ipc.on('get-status', (e, arg) => {
+			mpd.getStatus().then((status: IStatusObj) => {
+				e.sender.send('status', status);
+			});
+		});
+
 		ipc.on('get-playlist', (e, arg) => {
 			mpd.getPlaylist().then((playlist: IPlaylistItem[]) => {
 				e.sender.send('playlist', playlist);

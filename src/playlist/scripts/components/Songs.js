@@ -29,7 +29,7 @@ var Songs = (function (_super) {
         var elem = $(event.target);
         var itemID = elem.closest('li').data('id');
         if (elem.hasClass('fa-plus')) {
-            MpdActions.addSong(this.props.songs.artist, this.props.songs.album, itemID);
+            MpdActions.addSong(this.props.songs.artist, this.props.songs.album, itemID.toString());
         }
     };
     Songs.prototype._onBack = function () {

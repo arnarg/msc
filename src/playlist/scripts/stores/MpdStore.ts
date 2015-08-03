@@ -1,7 +1,6 @@
 /// <reference path="../typings/playlist.d.ts" />
 
 import * as alt from '../alt';
-import * as ipc from 'ipc';
 import MpdActions = require('../actions/MpdActions');
 import AbstractStoreModel = require('./AbstractStoreModel');
 

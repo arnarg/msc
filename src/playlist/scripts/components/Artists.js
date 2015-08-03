@@ -27,11 +27,11 @@ var Artists = (function (_super) {
         var elem = $(event.target);
         var itemID = elem.closest('li').data('id');
         if (elem.hasClass('fa-plus')) {
-            MpdActions.addArtist(itemID);
+            MpdActions.addArtist(itemID.toString());
         }
         else if (elem.hasClass('fa-chevron-right')) {
             this.props._down();
-            MpdActions.getAlbums(itemID);
+            MpdActions.getAlbums(itemID.toString());
         }
     };
     return Artists;

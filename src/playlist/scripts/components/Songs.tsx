@@ -50,7 +50,7 @@ class Songs extends React.Component<Props, any> {
 		if (elem.hasClass('fa-plus')) {
 			MpdActions.addSong(this.props.songs.artist,
 			                   this.props.songs.album,
-			                   itemID);
+			                   itemID.toString());
 		}
 	}
 

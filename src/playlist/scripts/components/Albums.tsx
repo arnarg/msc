@@ -50,11 +50,11 @@ class Albums extends React.Component<Props, any> {
 
 		// Clicked element is one of the two buttons
 		if (elem.hasClass('fa-plus')) {
-			MpdActions.addAlbum(this.props.albums.artist, itemID);
+			MpdActions.addAlbum(this.props.albums.artist, itemID.toString());
 		} else if (elem.hasClass('fa-chevron-right')) {
 			// Change state of library
 			this.props._down();
-			MpdActions.getSongs(this.props.albums.artist, itemID);
+			MpdActions.getSongs(this.props.albums.artist, itemID.toString());
 		}
 	}
 

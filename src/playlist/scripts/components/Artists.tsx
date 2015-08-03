@@ -45,11 +45,11 @@ class Artists extends React.Component<Props, any> {
 		var itemID = elem.closest('li').data('id');
 		// Clicked element is one of the two buttons
 		if (elem.hasClass('fa-plus')) {
-			MpdActions.addArtist(itemID);
+			MpdActions.addArtist(itemID.toString());
 		} else if (elem.hasClass('fa-chevron-right')) {
 			// Change state of library
 			this.props._down();
-			MpdActions.getAlbums(itemID);
+			MpdActions.getAlbums(itemID.toString());
 		}
 	}
 }

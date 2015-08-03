@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": false,
+        "noEmit": true,
+        "jsx": "react"
+    },
+    "filesGlob": [
+        "**/*.ts",
+        "**/*.tsx"
+    ],
+    "files": [
+        "actions/AbstractActions.ts",
+        "actions/CoverActions.ts",
+        "actions/MpdActions.ts",
+        "alt.ts",
+        "stores/AbstractStoreModel.ts",
+        "stores/CoverStore.ts",
+        "stores/MpdStore.ts",
+        "typings/interfaces.d.ts",
+        "typings/music-cover.d.ts",
+        "typings/player.d.ts",
+        "utils/MpdUtils.ts",
+        "components/Controls.tsx",
+        "components/Cover.tsx",
+        "components/PlayerApp.tsx",
+        "components/ProgressBar.tsx"
+    ]
+}

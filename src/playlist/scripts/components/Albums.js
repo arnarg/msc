@@ -29,11 +29,11 @@ var Albums = (function (_super) {
         var elem = $(event.target);
         var itemID = elem.closest('li').data('id');
         if (elem.hasClass('fa-plus')) {
-            MpdActions.addAlbum(this.props.albums.artist, itemID);
+            MpdActions.addAlbum(this.props.albums.artist, itemID.toString());
         }
         else if (elem.hasClass('fa-chevron-right')) {
             this.props._down();
-            MpdActions.getSongs(this.props.albums.artist, itemID);
+            MpdActions.getSongs(this.props.albums.artist, itemID.toString());
         }
     };
     Albums.prototype._onBack = function () {
