@@ -39,13 +39,13 @@ class Mpd {
 		});
 	}
 
-	getPlaylist(): Promise<IPlaylistItem[]> {
-		return new Promise<IPlaylistItem[]>((resolve, reject) => {
+	getPlaylist(): Promise<ISong[]> {
+		return new Promise<ISong[]>((resolve, reject) => {
 			this.client.sendCommand(mpd.cmd('playlistinfo', []), (err, res) => {
 				if (err)
 					reject(err);
 				else
-					resolve(Parser.parsePlaylist(res));
+					resolve(Parser.parseSongs(res));
 			});
 		});
 	}
@@ -89,7 +89,7 @@ class Mpd {
 						var ret: ISongs = {
 							artist: artist,
 							album: album,
-							songs: Parser.parseList(res, 'Title')
+							songs: Parser.parseSongs(res)
 						};
 						resolve(ret);
 					}
@@ -107,6 +107,15 @@ class Mpd {
 }
 
 module Parser {
+
+	export function secsToMins(time: string): string {
+		// Converting time from seconds to minutes:seconds
+		var seconds = parseInt(time);
+		var h = Math.floor(seconds / 60);
+		var s = seconds % 60;
+		// Adding 0 padding because 03:05 looks nicer than 3:5
+	 	return (h < 10 ? '0' : '') + h + ':' + (s < 10 ? '0' : '') + s;
+	}
 
 	export function buildRegex(props: string[]): RegExp {
 		return new RegExp('(' + props.join('|') +'): (.*)', 'i');
@@ -128,67 +137,79 @@ module Parser {
 		return ret;
 	}
 
-	export function parseStatus(str: string): IStatusObj {
-		// An array of the properties I want to
-		// extract from the response from mpd
+	export function parseStats(str: string): IStats {
 		var props: string[] = [
 			'volume',
 			'state',
+			'time',
+			'repeat',
+			'random'
+		];
+		var tmp = this.parseProps(str, props);
+		var stats: IStats = {
+			volume: parseInt(tmp.volume),
+			repeat: parseInt(tmp.repeat),
+			random: parseInt(tmp.random),
+			state: tmp.state,
+			elapsed: 1,
+			duration: 1
+		};
+		if (tmp.time) {
+			// time is formatted elapsed:duration in seconds
+			var comp = /([0-9]+):([0-9]+)/.exec(tmp.time);
+			stats.elapsed = parseInt(comp[1]);
+			stats.duration = parseInt(comp[2]);
+		}
+
+		return stats;
+	}
+
+	// Parse a single song
+	export function parseSong(str: string): ISong {
+		var props: string[] = [
 			'artist',
 			'album',
 			'title',
-			'elapsed',
-			'duration',
-			'repeat',
-			'random',
-			'time'
+			'track',
+			'time',
+			'id'
 		];
-		var obj = this.parseProps(str, props);
-		// Some of the props need to be integers
-		obj.elapsed = parseInt(obj.elapsed);
-		obj.time    = parseInt(obj.time);
-		obj.repeat  = parseInt(obj.repeat);
-		obj.random  = parseInt(obj.random);
-		obj.volume  = parseInt(obj.volume);
+		var tmp = this.parseProps(str, props);
+		var song: ISong = {
+			artist: tmp.artist,
+			album: tmp.album,
+			title: tmp.title,
+			track: parseInt(/([0-9]+)\/[0-9]+/.exec(tmp.track)[1]),
+			time: this.secsToMins(tmp.time),
+			id: parseInt(tmp.id)
+		};
 
-		return obj;
+		return song;
 	}
 
-	export function parsePlaylist(str: string): IPlaylistItem[] {
-		// Each song begins with a file property
-		// so splitting the string at a new line
-		// followed by file: seperates the songs
-		var songs: string[] = str.split(/\n(?=file:)/);
-		var playlist: IPlaylistItem[] = [];
-
-		songs.forEach((song) => {
-			var props: string[] = [
-				'file',
-				'artist',
-				'album',
-				'genre',
-				'title',
-				'time',
-				'id'
-			];
-			var obj = this.parseProps(song, props);
-
-			// The last index in the lines array will be
-			// an empty string and we don't want that in
-			// our playlist
-			if (obj.hasOwnProperty('time')) {
-				// Converting time from seconds to minutes:seconds
-				var seconds = parseInt(obj.time);
-				var h = Math.floor(seconds / 60);
-				var s = seconds % 60;
-				// Adding 0 padding because 03:05 looks nicer than 3:5
-				obj.time = (h < 10 ? '0' : '') + h + ':' + (s < 10 ? '0' : '') + s;
-
-				playlist.push(obj);
-			}
+	// Parse multiple songs
+	export function parseSongs(str: string): ISong[] {
+		var songs: ISong[] = [];
+		var tmp: string[] = str.split(/\n(?=file)/);
+		
+		tmp.forEach((song) => {
+			songs.push(this.parseSong(song));
 		});
 
-		return playlist;
+		return songs;
+	}
+
+	export function parseStatus(str: string): IStatusObj {
+		// First there is information about the status
+		// followed by the current song.
+		// Current song begins with 'file:' so we can
+		// split on a new line character followed by 'file:'
+		var split: string[] = str.split(/\n(?=file:)/);
+
+		return {
+			stats: this.parseStats(split[0]),
+			currentSong: this.parseSong(split[1])
+		};
 	}
 
 	export function parseList(str: string, prop: string): string[] {

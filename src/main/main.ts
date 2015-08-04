@@ -84,7 +84,7 @@ function main(args: string[]) {
 		});
 
 		ipc.on('get-playlist', (e, arg) => {
-			mpd.getPlaylist().then((playlist: IPlaylistItem[]) => {
+			mpd.getPlaylist().then((playlist: ISong[]) => {
 				e.sender.send('playlist', playlist);
 			});
 		});
@@ -107,6 +107,7 @@ function main(args: string[]) {
 
 		ipc.on('get-songs', (e, arg) => {
 			mpd.getSongs(arg.artist, arg.album).then((songs: ISongs) => {
+				//console.log(songs);
 				e.sender.send('songs', songs);
 			}).catch((err) => {
 				console.log(err);
