@@ -36,19 +36,15 @@ class PlayerApp extends React.Component<any, State> {
 	}
 
 	render() {
-		var songData = {
-			artist: this.state.status.artist,
-			title: this.state.status.title
-		};
 		return (
 			<div className='flex-container'>
-				<Cover songData={songData}
+				<Cover songData={this.state.status.currentSong}
 				       cover={this.state.cover}
-				       repeat={this.state.status.repeat}
-				       random={this.state.status.random} />
-				<ProgressBar elapsed={this.state.status.elapsed}
-				             duration={this.state.status.time} />
-				<Controls state={this.state.status.state} />
+				       repeat={this.state.status.stats.repeat}
+				       random={this.state.status.stats.random} />
+				<ProgressBar elapsed={this.state.status.stats.elapsed}
+				             duration={this.state.status.stats.duration} />
+				<Controls state={this.state.status.stats.state} />
 			</div>
 		);
 	}

@@ -1,1 +1,1 @@
-/// <reference path="./interfaces.d.ts"/>
+/// <reference path="interfaces.d.ts"/>

@@ -1,7 +1,5 @@
-/// <reference path="../../../shared/ts/typings/interfaces.d.ts"/>
-
 interface IMpdStoreState {
-	playlist: IListItem[];
+	playlist: IPlaylistItem[];
 	artists: string[];
 	albums: IAlbums;
 	songs: ISongs;
@@ -19,15 +17,5 @@ interface ITabStoreState {
 }
 
 interface ISongData {
-	id: number;
-}
-
-interface IListItem {
-	file: string;
-	artist: string;
-	album: string;
-	genre: string;
-	title: string;
-	time: number;
 	id: number;
 }

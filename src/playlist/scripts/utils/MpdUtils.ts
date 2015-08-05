@@ -36,7 +36,7 @@ var MpdUtils = {
 	},
 	fetchPlaylist() {
 		return new Promise((resolve, reject) => {
-			ipc.once('playlist', (playlist: IListItem[]) => {
+			ipc.once('playlist', (playlist: IPlaylistItem[]) => {
 				resolve(playlist);
 			});
 			ipc.send('get-playlist');

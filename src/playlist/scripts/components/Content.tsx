@@ -4,7 +4,7 @@ import Library = require('./Library');
 
 interface Props {
 	activeTab: number;
-	playlist: IListItem[];
+	playlist: IPlaylistItem[];
 	library: {
 		artists: string[];
 		albums: IAlbums;

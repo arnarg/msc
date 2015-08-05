@@ -4,7 +4,7 @@ import PlaylistItem = require('./PlaylistItem');
 import MpdActions = require('../actions/MpdActions');
 
 interface Props {
-	playlist: IListItem[];
+	playlist: IPlaylistItem[];
 }
 
 class Playlist extends React.Component<Props, any> {
@@ -20,7 +20,7 @@ class Playlist extends React.Component<Props, any> {
 	render() {
 		var playlist: JSX.Element[] = [];
 
-		this.props.playlist.forEach((song: IListItem) => {
+		this.props.playlist.forEach((song: IPlaylistItem) => {
 			playlist.push(
 				<PlaylistItem song={song} key={song.id} />
 			);

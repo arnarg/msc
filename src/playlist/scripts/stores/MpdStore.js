@@ -22,7 +22,16 @@ var MpdStore = (function (_super) {
             album: '',
             songs: []
         };
-        this.bindActions(MpdActions);
+        this.bindListeners({
+            onUpdatePlaylist: MpdActions['UPDATE_PLAYLIST'],
+            onGetArtists: MpdActions['GET_ARTISTS'],
+            onGetAlbums: MpdActions['GET_ALBUMS'],
+            onGetSongs: MpdActions['GET_SONGS'],
+            onRemoveSong: MpdActions['REMOVE_SONG'],
+            onAddArtist: MpdActions['ADD_ARTIST'],
+            onAddAlbum: MpdActions['ADD_ALBUM'],
+            onAddSong: MpdActions['ADD_SONG']
+        });
     }
     MpdStore.prototype.onUpdatePlaylist = function (playlist) {
         this.playlist = playlist;

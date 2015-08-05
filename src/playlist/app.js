@@ -3,6 +3,10 @@ var ipc         = require('ipc');
 var PlaylistApp = require('./scripts/components/PlaylistApp');
 var MpdActions = require('./scripts/actions/MpdActions');
 
+ipc.on('update', function() {
+	MpdActions.updatePlaylist();
+});
+
 React.render(
 	React.createElement(PlaylistApp),
 	document.getElementById('playlistapp')

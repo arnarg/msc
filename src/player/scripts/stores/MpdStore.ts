@@ -7,16 +7,22 @@ import CoverActions = require('../actions/CoverActions');
 
 class MpdStore extends AbstractStoreModel<IMpdStoreModel> implements AltJS.StoreModel<IMpdStoreModel> {
 	status: IStatusObj = {
-		volume: 0,
-		state: 'stop',
-		artist: '',
-		album: '',
-		title: '',
-		elapsed: 1,
-		duration: 1,
-		repeat: 0,
-		random: 0,
-		time: 0
+		stats: {
+			volume: 0,
+			state: 'stop',
+			elapsed: 1,
+			duration: 1,
+			repeat: 0,
+			random: 0
+		},
+		currentSong: {
+			artist: '',
+			album: '',
+			title: '',
+			track: 0,
+			time: '',
+			id: 0
+		}
 	};
 	_timeout = null;
 	constructor() {
@@ -35,13 +41,15 @@ class MpdStore extends AbstractStoreModel<IMpdStoreModel> implements AltJS.Store
 	}
 
 	onGetStatus(status: IStatusObj) {
-		var updateCover: boolean = this.status.album !== status.album;
+		console.log(status);
+		var updateCover: boolean = this.status.currentSong.album !== status.currentSong.album;
 		this.status = status;
-		if (updateCover) CoverActions.getCover(status.artist, status.album);
+		if (updateCover) {
+			CoverActions.getCover(status.currentSong.artist, status.currentSong.album);
+		}
 		// set a timeout if state is playing and there isn't a pending timeout
-		if (status.state === 'play' && this._timeout === null) {
+		if (status.stats.state === 'play' && this._timeout === null) {
 			this._timeout = setTimeout(() => {
-				console.log('timeout');
 				this._timeout = null;
 				MpdActions.getStatus();
 			}, 500);

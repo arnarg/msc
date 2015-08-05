@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var React = require('react');
 var $ = require('jquery');
-var LibraryItem = require('./LibraryItem');
+var Song = require('./Song');
 var BackBtn = require('./BackBtn');
 var MpdActions = require('../actions/MpdActions');
 var Songs = (function (_super) {
@@ -18,7 +18,7 @@ var Songs = (function (_super) {
     Songs.prototype.render = function () {
         var songs = [];
         this.props.songs.songs.forEach(function (song, i) {
-            songs.push(React.createElement(LibraryItem, {"item": song, "key": i, "showArrow": false}));
+            songs.push(React.createElement(Song, {"song": song}));
         });
         return (React.createElement("ul", {"className": 'list songs'}, React.createElement(BackBtn, {"back": this._onBack}), songs));
     };

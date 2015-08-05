@@ -19,7 +19,7 @@
         "stores/AbstractStoreModel.ts",
         "stores/MpdStore.ts",
         "stores/TabStore.ts",
-        "typings/interfaces.ts",
+        "typings/interfaces.d.ts",
         "typings/playlist.d.ts",
         "utils/MpdUtils.ts",
         "components/Albums.tsx",
@@ -31,6 +31,7 @@
         "components/Playlist.tsx",
         "components/PlaylistApp.tsx",
         "components/PlaylistItem.tsx",
+        "components/Song.tsx",
         "components/Songs.tsx",
         "components/Tab.tsx",
         "components/Tabs.tsx"

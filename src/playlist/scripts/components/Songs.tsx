@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as $ from 'jquery';
-import LibraryItem = require('./LibraryItem');
+import Song = require('./Song');
 import BackBtn = require('./BackBtn');
 import MpdActions = require('../actions/MpdActions');
 
@@ -24,7 +24,7 @@ class Songs extends React.Component<Props, any> {
 
 		this.props.songs.songs.forEach((song, i) => {
 			songs.push(
-				<LibraryItem item={song} key={i} showArrow={false} />
+				<Song song={song} />
 			);
 		});
 

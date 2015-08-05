@@ -6,7 +6,7 @@ import Tabs = require('./Tabs');
 import Content = require('./Content');
 
 interface State {
-	playlist: IListItem[];
+	playlist: IPlaylistItem[];
 	library: {
 		artists: string[];
 		albums: IAlbums;
