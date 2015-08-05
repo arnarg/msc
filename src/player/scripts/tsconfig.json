@@ -25,7 +25,9 @@
         "utils/MpdUtils.ts",
         "components/Controls.tsx",
         "components/Cover.tsx",
+        "components/Menu.tsx",
         "components/PlayerApp.tsx",
-        "components/ProgressBar.tsx"
+        "components/ProgressBar.tsx",
+        "components/Settings.tsx"
     ]
 }

@@ -8,6 +8,7 @@ import CoverActions = require('../actions/CoverActions');
 import Cover = require('./Cover');
 import ProgressBar = require('./ProgressBar');
 import Controls = require('./Controls');
+import Menu = require('./Menu');
 
 interface State {
 	status: IStatusObj;
@@ -45,6 +46,7 @@ class PlayerApp extends React.Component<any, State> {
 				<ProgressBar elapsed={this.state.status.stats.elapsed}
 				             duration={this.state.status.stats.duration} />
 				<Controls state={this.state.status.stats.state} />
+				<Menu />
 			</div>
 		);
 	}

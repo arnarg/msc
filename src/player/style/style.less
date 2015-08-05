@@ -180,11 +180,19 @@ body {
                 -webkit-user-select: none;
                 display: none;
 
+                &.active {
+                    display: block;
+                }
+
                 & li {
                     padding: 8px 10px;
 
                     &:hover {
                         background-color: #dddddd;
+                    }
+
+                    & i {
+                        margin-right: 0.4em;
                     }
                 }
             }

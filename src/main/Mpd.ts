@@ -190,8 +190,11 @@ module Parser {
 	// Parse multiple songs
 	export function parseSongs(str: string): ISong[] {
 		var songs: ISong[] = [];
+		// if the list of songs is empty there is nothing to parse
+		if (str === '') return songs;
+
 		var tmp: string[] = str.split(/\n(?=file)/);
-		
+
 		tmp.forEach((song) => {
 			songs.push(this.parseSong(song));
 		});
@@ -206,9 +209,23 @@ module Parser {
 		// split on a new line character followed by 'file:'
 		var split: string[] = str.split(/\n(?=file:)/);
 
+		// if playback is stopped there is not current song
+		if (!split[1]) {
+			var song: ISong = {
+				artist: '',
+				album: '',
+				title: '',
+				track: 0,
+				time: '',
+				id: 0
+			};
+		} else {
+			var song: ISong = this.parseSong(split[1]);
+		}
+
 		return {
 			stats: this.parseStats(split[0]),
-			currentSong: this.parseSong(split[1])
+			currentSong: song
 		};
 	}
 
