@@ -41,7 +41,6 @@ class MpdStore extends AbstractStoreModel<IMpdStoreModel> implements AltJS.Store
 	}
 
 	onGetStatus(status: IStatusObj) {
-		console.log(status);
 		var updateCover: boolean = this.status.currentSong.album !== status.currentSong.album;
 		this.status = status;
 		if (updateCover) {
