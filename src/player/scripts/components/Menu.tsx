@@ -63,7 +63,7 @@ class Menu extends React.Component<any, State> {
 	}
 
 	_onSettings() {
-		console.log('settings clicked');
+		$('.settings').addClass('active');
 		this._hide();
 	}
 }
