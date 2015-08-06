@@ -1,6 +1,7 @@
 /// <reference path="../typings/player.d.ts"/>
 
 import * as React from 'react';
+import * as $ from 'jquery';
 
 interface State {
 	active: boolean;
@@ -14,6 +15,10 @@ class Menu extends React.Component<any, State> {
 		bind es6 methods so they are referenced properly when executed by jsx
 		*/
 		this._onClick = this._onClick.bind(this);
+		this._show = this._show.bind(this);
+		this._hide = this._hide.bind(this);
+		this._onPlaylist = this._onPlaylist.bind(this);
+		this._onSettings = this._onSettings.bind(this);
 		super();
 	}
 
@@ -26,7 +31,7 @@ class Menu extends React.Component<any, State> {
 						<i className='fa fa-list'></i> Playlist
 					</li>
 					<li onClick={this._onSettings}>
-						<i className='fa fa-list'></i> Settings
+						<i className='fa fa-cog'></i> Settings
 					</li>
 				</ul>
 				<i className='fa fa-bars'
@@ -37,15 +42,29 @@ class Menu extends React.Component<any, State> {
 	}
 
 	_onClick() {
-		this.setState({active: !this.state.active});
+		if (!this.state.active) {
+			this._show();
+		} else {
+			this._hide();
+		}
+	}
+
+	_show() {
+		this.setState({active: true});
+	}
+
+	_hide() {
+		this.setState({active: false});
 	}
 
 	_onPlaylist() {
 		console.log('playlist clicked');
+		this._hide();
 	}
 
 	_onSettings() {
 		console.log('settings clicked');
+		this._hide();
 	}
 }
 
